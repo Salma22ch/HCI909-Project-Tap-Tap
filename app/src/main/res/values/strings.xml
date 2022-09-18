@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Tap-Tap</string>
+    <string name="play">Play</string>
+    <string name="setting">Setting</string>
+    <string name="song_list">Songs list</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="mode">Mode</string>
+    <string name="easymode">Easy</string>
+    <string name="mdeiummode">Medium</string>
+    <string name="expertmode">Expert</string>
 </resources>
