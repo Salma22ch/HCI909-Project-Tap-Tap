@@ -1,18 +1,18 @@
 package com.example.tap_tap;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import java.util.Timer;
 
 public class EasyModeActivity extends Activity {
     Button tap_one_btn ;
@@ -25,21 +25,31 @@ public class EasyModeActivity extends Activity {
     ConstraintLayout second_layout;
     ConstraintLayout third_layout;
 
-    MediaPlayer mp;
+    MediaPlayer mp_one, mp_two, mp_three;
 
 
+
+   // for songs bar
+    private CountDownTimer timer = null;
+    //mediaPlayer.setDataSource(PATH);
+    //mediaPlayer.prepare();
+    //mediaPlayer.start();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_easy_2);
+        setContentView(R.layout.activity_easy);
 
         tap_one_btn=(Button)findViewById(R.id.tap_one_btn);
         tap_two_btn=(Button)findViewById(R.id.tap_two_btn);
         tap_three_btn=(Button)findViewById(R.id.tap_three_btn);
 
         score_field=(TextView)findViewById(R.id.score_field_game);
-        //mp=MediaPlayer.create(this, R.raw);
+
+        mp_one=MediaPlayer.create(this, R.raw.dom);
+        mp_two=MediaPlayer.create(this, R.raw.re);
+        mp_three=MediaPlayer.create(this, R.raw.dom);
+
 
         first_layout=(ConstraintLayout) findViewById(R.id.first_layout);
         second_layout=(ConstraintLayout) findViewById(R.id.second_layout);
@@ -52,18 +62,40 @@ public class EasyModeActivity extends Activity {
                 int present_score = Integer.parseInt(score_field.getText().toString());
                 present_score++;
                 score_field.setText(String.valueOf(present_score));
-                mp.start();
+                mp_one.start();
+
+                new CountDownTimer(1000, 1000) {
+                    public void onTick(long millisUntilFinished) {
+                    }
+                    public void onFinish() {
+                        mp_one.stop();
+                        first_layout.setBackgroundColor(Color.WHITE);
+                    }
+                }.start();
             }
         });
 
         tap_two_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                second_layout.setBackgroundColor(Color.BLUE);
+
                 int present_score = Integer.parseInt(score_field.getText().toString());
                 present_score++;
                 score_field.setText(String.valueOf(present_score));
-                mp.start();
+                second_layout.setBackgroundColor(Color.BLUE);
+                mp_two.start();
+
+                new CountDownTimer(1000, 1000) {
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+                    public void onFinish() {
+                        mp_two.stop();
+                        second_layout.setBackgroundColor(Color.WHITE);
+
+                    }
+                }.start();
+
             }
         });
 
@@ -74,7 +106,17 @@ public class EasyModeActivity extends Activity {
                 int present_score = Integer.parseInt(score_field.getText().toString());
                 present_score++;
                 score_field.setText(String.valueOf(present_score));
-                mp.start();
+                mp_three.start();
+
+                new CountDownTimer(1000, 1000) {
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+                    public void onFinish() {
+                        mp_three.stop();
+                        third_layout.setBackgroundColor(Color.WHITE);
+                    }
+                }.start();
             }
         });
     }
