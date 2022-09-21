@@ -44,8 +44,8 @@
 
     <ListView
         android:id="@+id/listOfSongs"
-        android:layout_width="350dp"
-        android:layout_height="431dp"
+        android:layout_width="355dp"
+        android:layout_height="403dp"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
@@ -54,14 +54,13 @@
 
     <TextView
         android:id="@+id/Mode"
-        android:layout_width="77dp"
+        android:layout_width="wrap_content"
         android:layout_height="43dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="56dp"
         android:text="@string/mode"
         android:textColor="@color/cardview_dark_background"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.084"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listOfSongs" />
 
@@ -69,25 +68,25 @@
         android:id="@+id/EasyMode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="44dp"
-        android:text="@string/easymode"
+        android:layout_marginBottom="136dp"
+        android:text="@string/easy_mode"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.099"
+        app:layout_constraintHorizontal_bias="0.13"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/MediumMode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
         android:layout_marginTop="80dp"
-        android:text="@string/mdeiummode"
+        android:text="@string/mdeium_mode"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/EasyMode"
         app:layout_constraintTop_toBottomOf="@+id/listOfSongs"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintVertical_bias="0.346" />
 
     <Button
         android:id="@+id/ExpertMode"
@@ -96,10 +95,10 @@
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="80dp"
-        android:text="@string/expertmode"
+        android:text="@string/expert_mode"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/MediumMode"
         app:layout_constraintTop_toBottomOf="@+id/listOfSongs"
-        app:layout_constraintVertical_bias="0.253" />
+        app:layout_constraintVertical_bias="0.346" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

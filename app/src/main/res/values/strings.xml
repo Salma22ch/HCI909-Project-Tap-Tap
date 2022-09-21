@@ -5,8 +5,14 @@
     <string name="song_list">Songs list</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
-    <string name="mode">Mode</string>
-    <string name="easymode">Easy</string>
-    <string name="mdeiummode">Medium</string>
-    <string name="expertmode">Expert</string>
+    <string name="mode">Choose a mode to play:</string>
+    <string name="easy_mode">Easy</string>
+    <string name="mdeium_mode">Medium</string>
+    <string name="expert_mode">Expert</string>
+    <string name="sub_score">0</string>
+    <string name="menu_button">menu</string>
+    <string name="song_bar">Song bar</string>
+    <string name="tap_one">1</string>
+    <string name="tap_two">2</string>
+    <string name="tap_three">3</string>
 </resources>

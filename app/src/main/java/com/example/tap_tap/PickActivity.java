@@ -48,10 +48,10 @@ public class PickActivity extends AppCompatActivity {
                 }
             });
 
-            btn_previous.setOnClickListener(new View.OnClickListener() {
+            btn_next.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(PickActivity.this, MainActivity.class));
+                    startActivity(new Intent(PickActivity.this, EasyModeActivity.class));
                 }
             });
     }
