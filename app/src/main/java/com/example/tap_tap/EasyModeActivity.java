@@ -46,9 +46,9 @@ public class EasyModeActivity extends Activity {
 
         score_field=(TextView)findViewById(R.id.score_field_game);
 
-        mp_one=MediaPlayer.create(this, R.raw.dom);
-        mp_two=MediaPlayer.create(this, R.raw.re);
-        mp_three=MediaPlayer.create(this, R.raw.dom);
+
+
+
 
 
         first_layout=(ConstraintLayout) findViewById(R.id.first_layout);
@@ -62,6 +62,7 @@ public class EasyModeActivity extends Activity {
                 int present_score = Integer.parseInt(score_field.getText().toString());
                 present_score++;
                 score_field.setText(String.valueOf(present_score));
+                mp_one=MediaPlayer.create(EasyModeActivity.this, R.raw.dom);
                 mp_one.start();
 
                 new CountDownTimer(1000, 1000) {
@@ -83,6 +84,7 @@ public class EasyModeActivity extends Activity {
                 present_score++;
                 score_field.setText(String.valueOf(present_score));
                 second_layout.setBackgroundColor(Color.BLUE);
+                mp_two=MediaPlayer.create(EasyModeActivity.this, R.raw.re);
                 mp_two.start();
 
                 new CountDownTimer(1000, 1000) {
@@ -106,6 +108,7 @@ public class EasyModeActivity extends Activity {
                 int present_score = Integer.parseInt(score_field.getText().toString());
                 present_score++;
                 score_field.setText(String.valueOf(present_score));
+                mp_three=MediaPlayer.create(EasyModeActivity.this, R.raw.dom);
                 mp_three.start();
 
                 new CountDownTimer(1000, 1000) {
