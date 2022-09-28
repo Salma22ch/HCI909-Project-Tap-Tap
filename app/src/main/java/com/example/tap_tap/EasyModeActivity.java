@@ -25,7 +25,8 @@ public class EasyModeActivity extends Activity {
     ConstraintLayout second_layout;
     ConstraintLayout third_layout;
 
-    MediaPlayer mp_one, mp_two, mp_three;
+    MediaPlayer mp_one, mp_two, mp_three, mp;
+    int currentPosition=0;
 
 
 
@@ -46,7 +47,7 @@ public class EasyModeActivity extends Activity {
 
         score_field=(TextView)findViewById(R.id.score_field_game);
 
-
+        mp=MediaPlayer.create(EasyModeActivity.this, R.raw.track);
 
 
 
@@ -62,14 +63,17 @@ public class EasyModeActivity extends Activity {
                 int present_score = Integer.parseInt(score_field.getText().toString());
                 present_score++;
                 score_field.setText(String.valueOf(present_score));
-                mp_one=MediaPlayer.create(EasyModeActivity.this, R.raw.dom);
-                mp_one.start();
+                //mp_one=MediaPlayer.create(EasyModeActivity.this, R.raw.track);
+                //mp=MediaPlayer.create(EasyModeActivity.this, R.raw.track);
+                currentPosition = mp.getCurrentPosition();
+                mp.seekTo(currentPosition +1);
+                mp.start();
 
                 new CountDownTimer(1000, 1000) {
                     public void onTick(long millisUntilFinished) {
                     }
                     public void onFinish() {
-                        mp_one.stop();
+                        mp.pause();
                         first_layout.setBackgroundColor(Color.WHITE);
                     }
                 }.start();
@@ -84,15 +88,17 @@ public class EasyModeActivity extends Activity {
                 present_score++;
                 score_field.setText(String.valueOf(present_score));
                 second_layout.setBackgroundColor(Color.BLUE);
-                mp_two=MediaPlayer.create(EasyModeActivity.this, R.raw.re);
-                mp_two.start();
+                currentPosition = mp.getCurrentPosition();
+                //mp=MediaPlayer.create(EasyModeActivity.this, R.raw.track);
+                mp.seekTo(currentPosition +1);
+                mp.start();
 
                 new CountDownTimer(1000, 1000) {
                     public void onTick(long millisUntilFinished) {
 
                     }
                     public void onFinish() {
-                        mp_two.stop();
+                        mp.pause();
                         second_layout.setBackgroundColor(Color.WHITE);
 
                     }
@@ -108,15 +114,17 @@ public class EasyModeActivity extends Activity {
                 int present_score = Integer.parseInt(score_field.getText().toString());
                 present_score++;
                 score_field.setText(String.valueOf(present_score));
-                mp_three=MediaPlayer.create(EasyModeActivity.this, R.raw.dom);
-                mp_three.start();
+                currentPosition = mp.getCurrentPosition();
+                //mp=MediaPlayer.create(EasyModeActivity.this, R.raw.track);
+                mp.seekTo(currentPosition +1);
+                mp.start();
 
                 new CountDownTimer(1000, 1000) {
                     public void onTick(long millisUntilFinished) {
 
                     }
                     public void onFinish() {
-                        mp_three.stop();
+                        mp.pause();
                         third_layout.setBackgroundColor(Color.WHITE);
                     }
                 }.start();
