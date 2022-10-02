@@ -2,6 +2,7 @@ package com.example.tap_tap;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -23,6 +24,7 @@ public class EasyModeActivity extends Activity {
 
     TextView score_field;
     TextView tile_one, tile_two, tile_three;
+    AnimationDrawable animation_one;
 
     ConstraintLayout first_layout;
     ConstraintLayout second_layout;
@@ -95,6 +97,9 @@ public class EasyModeActivity extends Activity {
         // animation
 
 
+
+
+
         tap_two_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,11 +112,6 @@ public class EasyModeActivity extends Activity {
                 //mp=MediaPlayer.create(EasyModeActivity.this, R.raw.track);
                 mp.seekTo(currentPosition +1);
                 mp.start();
-
-                tile_two.animate().translationY(second_layout.getHeight()-tile_two.getY() -tile_two.getHeight()-tap_two_btn.getHeight()*2)
-                        .setInterpolator(new AccelerateInterpolator())
-                        .setInterpolator(new BounceInterpolator())
-                        .setDuration(2000);
 
                 new CountDownTimer(1000, 1000) {
                     public void onTick(long millisUntilFinished) {
@@ -139,10 +139,7 @@ public class EasyModeActivity extends Activity {
                 mp.seekTo(currentPosition +1);
                 mp.start();
 
-                tile_three.animate().translationY(third_layout.getHeight()-tile_three.getY() -tile_three.getHeight()-tap_three_btn.getHeight()*2)
-                        .setInterpolator(new AccelerateInterpolator())
-                        .setInterpolator(new BounceInterpolator())
-                        .setDuration(2000);
+
 
                 new CountDownTimer(1000, 1000) {
                     public void onTick(long millisUntilFinished) {
@@ -156,4 +153,26 @@ public class EasyModeActivity extends Activity {
             }
         });
     }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        if(hasFocus){
+            tile_one.animate().translationY(first_layout.getHeight()-tile_one.getY() -tile_one.getHeight()-tap_one_btn.getHeight()*2)
+                    .setInterpolator(new AccelerateInterpolator())
+                    .setInterpolator(new BounceInterpolator())
+                    .setDuration(2000);
+
+            tile_two.animate().translationY(second_layout.getHeight()-tile_two.getY() -tile_two.getHeight()-tap_two_btn.getHeight()*2)
+                    .setInterpolator(new AccelerateInterpolator())
+                    .setInterpolator(new BounceInterpolator())
+                    .setDuration(2000);
+
+            tile_three.animate().translationY(third_layout.getHeight()-tile_three.getY() -tile_three.getHeight()-tap_three_btn.getHeight()*2)
+                    .setInterpolator(new AccelerateInterpolator())
+                    .setInterpolator(new BounceInterpolator())
+                    .setDuration(2000);
+        }
+    }
+
+
 }
