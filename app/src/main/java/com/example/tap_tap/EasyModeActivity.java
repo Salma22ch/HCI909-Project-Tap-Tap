@@ -160,15 +160,15 @@ public class EasyModeActivity extends Activity {
     public void onWindowFocusChanged(boolean hasFocus) {
         if(hasFocus) {
 
-                Animation animation_one = new TranslateAnimation(0, 0,tile_one.getY(), first_layout.getHeight() - tile_one.getY() - tile_one.getHeight() - tap_one_btn.getHeight() * 2);
+                Animation animation_one = new TranslateAnimation(0, 0,0, first_layout.getHeight() - tile_one.getY() - tile_one.getHeight() - tap_one_btn.getHeight() * 2);
                 animation_one.setDuration(1000);
                 animation_one.setRepeatCount(Animation.INFINITE);
 
-                Animation animation_two = new TranslateAnimation(0, 0,tile_two.getY(), second_layout.getHeight() - tile_two.getY() - tile_two.getHeight() - tap_two_btn.getHeight() * 2);
+                Animation animation_two = new TranslateAnimation(0, 0,0, second_layout.getHeight() - tile_two.getY() - tile_two.getHeight() - tap_two_btn.getHeight() * 2);
                 animation_two.setDuration(1000);
                 animation_two.setRepeatCount(Animation.INFINITE);
 
-                Animation animation_three = new TranslateAnimation(0, 0,tile_three.getY(), third_layout.getHeight() - tile_three.getY() - tile_three.getHeight() - tap_three_btn.getHeight() * 2);
+                Animation animation_three = new TranslateAnimation(0, 0,0, third_layout.getHeight() - tile_three.getY() - tile_three.getHeight() - tap_three_btn.getHeight() * 2);
                 animation_three.setDuration(1000);
                 animation_three.setRepeatCount(Animation.INFINITE);
 
