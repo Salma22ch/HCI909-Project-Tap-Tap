@@ -6,6 +6,8 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.BounceInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -20,13 +22,14 @@ public class EasyModeActivity extends Activity {
     Button tap_three_btn ;
 
     TextView score_field;
+    TextView tile_one, tile_two, tile_three;
 
     ConstraintLayout first_layout;
     ConstraintLayout second_layout;
     ConstraintLayout third_layout;
 
     MediaPlayer mp_one, mp_two, mp_three, mp;
-    int currentPosition=0;
+    int currentPosition=0; // for media player
 
 
 
@@ -40,21 +43,23 @@ public class EasyModeActivity extends Activity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_easy);
-
+        // buttons
         tap_one_btn=(Button)findViewById(R.id.tap_one_btn);
         tap_two_btn=(Button)findViewById(R.id.tap_two_btn);
         tap_three_btn=(Button)findViewById(R.id.tap_three_btn);
-
+        // score field
         score_field=(TextView)findViewById(R.id.score_field_game);
-
+        // media player
         mp=MediaPlayer.create(EasyModeActivity.this, R.raw.track);
-
-
-
-
+        // tiles
+        tile_one=(TextView)findViewById(R.id.note_one);
+        tile_two=(TextView)findViewById(R.id.note_two);
+        tile_three=(TextView)findViewById(R.id.note_three);
+        // layout
         first_layout=(ConstraintLayout) findViewById(R.id.first_layout);
         second_layout=(ConstraintLayout) findViewById(R.id.second_layout);
         third_layout=(ConstraintLayout) findViewById(R.id.third_layout);
+
 
         tap_one_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +74,13 @@ public class EasyModeActivity extends Activity {
                 mp.seekTo(currentPosition +1);
                 mp.start();
 
+
+
+                tile_one.animate().translationY(first_layout.getHeight()-tile_one.getY() -tile_one.getHeight()-tap_one_btn.getHeight()*2)
+                        .setInterpolator(new AccelerateInterpolator())
+                        .setInterpolator(new BounceInterpolator())
+                        .setDuration(2000);
+
                 new CountDownTimer(1000, 1000) {
                     public void onTick(long millisUntilFinished) {
                     }
@@ -79,6 +91,9 @@ public class EasyModeActivity extends Activity {
                 }.start();
             }
         });
+
+        // animation
+
 
         tap_two_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +107,11 @@ public class EasyModeActivity extends Activity {
                 //mp=MediaPlayer.create(EasyModeActivity.this, R.raw.track);
                 mp.seekTo(currentPosition +1);
                 mp.start();
+
+                tile_two.animate().translationY(second_layout.getHeight()-tile_two.getY() -tile_two.getHeight()-tap_two_btn.getHeight()*2)
+                        .setInterpolator(new AccelerateInterpolator())
+                        .setInterpolator(new BounceInterpolator())
+                        .setDuration(2000);
 
                 new CountDownTimer(1000, 1000) {
                     public void onTick(long millisUntilFinished) {
@@ -118,6 +138,11 @@ public class EasyModeActivity extends Activity {
                 //mp=MediaPlayer.create(EasyModeActivity.this, R.raw.track);
                 mp.seekTo(currentPosition +1);
                 mp.start();
+
+                tile_three.animate().translationY(third_layout.getHeight()-tile_three.getY() -tile_three.getHeight()-tap_three_btn.getHeight()*2)
+                        .setInterpolator(new AccelerateInterpolator())
+                        .setInterpolator(new BounceInterpolator())
+                        .setDuration(2000);
 
                 new CountDownTimer(1000, 1000) {
                     public void onTick(long millisUntilFinished) {
