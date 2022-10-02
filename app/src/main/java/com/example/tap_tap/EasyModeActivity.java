@@ -1,5 +1,6 @@
 package com.example.tap_tap;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
@@ -8,7 +9,9 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
 import android.view.animation.BounceInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -30,9 +33,8 @@ public class EasyModeActivity extends Activity {
     ConstraintLayout second_layout;
     ConstraintLayout third_layout;
 
-    MediaPlayer mp_one, mp_two, mp_three, mp;
+    MediaPlayer mp;
     int currentPosition=0; // for media player
-
 
 
    // for songs bar
@@ -156,21 +158,27 @@ public class EasyModeActivity extends Activity {
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        if(hasFocus){
-            tile_one.animate().translationY(first_layout.getHeight()-tile_one.getY() -tile_one.getHeight()-tap_one_btn.getHeight()*2)
-                    .setInterpolator(new AccelerateInterpolator())
-                    .setInterpolator(new BounceInterpolator())
-                    .setDuration(2000);
+        if(hasFocus) {
 
-            tile_two.animate().translationY(second_layout.getHeight()-tile_two.getY() -tile_two.getHeight()-tap_two_btn.getHeight()*2)
-                    .setInterpolator(new AccelerateInterpolator())
-                    .setInterpolator(new BounceInterpolator())
-                    .setDuration(2000);
+                Animation animation_one = new TranslateAnimation(0, 0,tile_one.getY(), first_layout.getHeight() - tile_one.getY() - tile_one.getHeight() - tap_one_btn.getHeight() * 2);
+                animation_one.setDuration(1000);
+                animation_one.setRepeatCount(Animation.INFINITE);
 
-            tile_three.animate().translationY(third_layout.getHeight()-tile_three.getY() -tile_three.getHeight()-tap_three_btn.getHeight()*2)
-                    .setInterpolator(new AccelerateInterpolator())
-                    .setInterpolator(new BounceInterpolator())
-                    .setDuration(2000);
+                Animation animation_two = new TranslateAnimation(0, 0,tile_two.getY(), second_layout.getHeight() - tile_two.getY() - tile_two.getHeight() - tap_two_btn.getHeight() * 2);
+                animation_two.setDuration(1000);
+                animation_two.setRepeatCount(Animation.INFINITE);
+
+                Animation animation_three = new TranslateAnimation(0, 0,tile_three.getY(), third_layout.getHeight() - tile_three.getY() - tile_three.getHeight() - tap_three_btn.getHeight() * 2);
+                animation_three.setDuration(1000);
+                animation_three.setRepeatCount(Animation.INFINITE);
+
+
+                tile_one.startAnimation(animation_one);
+                tile_two.startAnimation(animation_two);
+                tile_three.startAnimation(animation_three);
+
+
+
         }
     }
 

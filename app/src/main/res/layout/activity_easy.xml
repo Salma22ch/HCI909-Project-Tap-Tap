@@ -79,9 +79,10 @@
             android:id="@+id/note_one"
             android:layout_width="125dp"
             android:layout_height="40dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="80dp"
             android:background="@drawable/note"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -102,9 +103,10 @@
             android:id="@+id/note_two"
             android:layout_width="129dp"
             android:layout_height="40dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="76dp"
             android:background="@drawable/note"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
