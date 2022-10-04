@@ -30,10 +30,10 @@ public class PickActivity extends AppCompatActivity {
             // list view + adapter
             songs_list=(ListView)findViewById(R.id.listOfSongs);
             ArrayList<String> songs=new ArrayList<>();
-            songs.add("trak 1");
-            songs.add("trak 2");
-            songs.add("trak 3");
-            songs.add("trak 4");
+            songs.add("Track 1");
+            songs.add("Track 2");
+            songs.add("Track 3");
+            songs.add("Track 4");
             ArrayAdapter songsAdapter= new ArrayAdapter(this, android.R.layout.simple_list_item_1,songs);
             songs_list.setAdapter(songsAdapter);
 

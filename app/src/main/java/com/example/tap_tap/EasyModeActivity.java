@@ -68,7 +68,7 @@ public class EasyModeActivity extends Activity {
         tap_one_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                first_layout.setBackgroundColor(Color.RED);
+                first_layout.setBackgroundResource(R.drawable.redborder);
                 int present_score = Integer.parseInt(score_field.getText().toString());
                 present_score++;
                 score_field.setText(String.valueOf(present_score));
@@ -79,18 +79,12 @@ public class EasyModeActivity extends Activity {
                 mp.start();
 
 
-
-                tile_one.animate().translationY(first_layout.getHeight()-tile_one.getY() -tile_one.getHeight()-tap_one_btn.getHeight()*2)
-                        .setInterpolator(new AccelerateInterpolator())
-                        .setInterpolator(new BounceInterpolator())
-                        .setDuration(2000);
-
                 new CountDownTimer(1000, 1000) {
                     public void onTick(long millisUntilFinished) {
                     }
                     public void onFinish() {
                         mp.pause();
-                        first_layout.setBackgroundColor(Color.WHITE);
+                        first_layout.setBackgroundResource(R.drawable.border);
                     }
                 }.start();
             }
@@ -109,7 +103,7 @@ public class EasyModeActivity extends Activity {
                 int present_score = Integer.parseInt(score_field.getText().toString());
                 present_score++;
                 score_field.setText(String.valueOf(present_score));
-                second_layout.setBackgroundColor(Color.BLUE);
+                second_layout.setBackgroundResource(R.drawable.blueborder);
                 currentPosition = mp.getCurrentPosition();
                 //mp=MediaPlayer.create(EasyModeActivity.this, R.raw.track);
                 mp.seekTo(currentPosition +1);
@@ -121,7 +115,7 @@ public class EasyModeActivity extends Activity {
                     }
                     public void onFinish() {
                         mp.pause();
-                        second_layout.setBackgroundColor(Color.WHITE);
+                        second_layout.setBackgroundResource(R.drawable.border);
 
                     }
                 }.start();
@@ -132,7 +126,7 @@ public class EasyModeActivity extends Activity {
         tap_three_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                third_layout.setBackgroundColor(Color.GREEN);
+                third_layout.setBackgroundResource(R.drawable.greenborder);
                 int present_score = Integer.parseInt(score_field.getText().toString());
                 present_score++;
                 score_field.setText(String.valueOf(present_score));
@@ -149,7 +143,7 @@ public class EasyModeActivity extends Activity {
                     }
                     public void onFinish() {
                         mp.pause();
-                        third_layout.setBackgroundColor(Color.WHITE);
+                        third_layout.setBackgroundResource(R.drawable.border);
                     }
                 }.start();
             }
