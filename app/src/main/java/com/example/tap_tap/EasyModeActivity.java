@@ -64,6 +64,16 @@ public class EasyModeActivity extends Activity {
         second_layout=(ConstraintLayout) findViewById(R.id.second_layout);
         third_layout=(ConstraintLayout) findViewById(R.id.third_layout);
 
+        addElements(first_layout);
+        addElements(second_layout);
+        addElements(third_layout);
+
+        // add falling rectangles to layouts
+        /*TextView test = new TextView(this);
+        test.setBackgroundResource(R.drawable.note);
+        test.setText("hey");
+        test.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, 140));
+        first_layout.addView(test);*/
 
         tap_one_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,6 +184,14 @@ public class EasyModeActivity extends Activity {
 
 
         }
+    }
+
+    public void addElements(ConstraintLayout layout){
+        TextView test = new TextView(this);
+        test.setBackgroundResource(R.drawable.note);
+        test.setText("hey");
+        test.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, 140));
+        layout.addView(test);
     }
 
 
