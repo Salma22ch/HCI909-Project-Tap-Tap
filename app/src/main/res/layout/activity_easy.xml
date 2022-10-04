@@ -76,16 +76,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/note_one"
-            android:layout_width="125dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="228dp"
-            android:background="@drawable/note"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -99,16 +89,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
-
-        <TextView
-            android:id="@+id/note_two"
-            android:layout_width="129dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="84dp"
-            android:background="@drawable/note"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/tap_two_btn"
@@ -137,17 +117,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
-
-        <TextView
-            android:id="@+id/note_three"
-            android:layout_width="127dp"
-            android:layout_height="43dp"
-            android:layout_marginTop="424dp"
-            android:background="@drawable/note"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/tap_three_btn"

@@ -1,16 +1,14 @@
 package com.example.tap_tap;
 
-import android.animation.ObjectAnimator;
+
 import android.app.Activity;
-import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
-import android.view.animation.BounceInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,7 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import java.util.Timer;
+
 
 public class EasyModeActivity extends Activity {
     Button tap_one_btn ;
@@ -26,7 +24,6 @@ public class EasyModeActivity extends Activity {
     Button tap_three_btn ;
 
     TextView score_field;
-    TextView tile_one, tile_two, tile_three;
     AnimationDrawable animation_one;
 
     ConstraintLayout first_layout;
@@ -36,12 +33,14 @@ public class EasyModeActivity extends Activity {
     MediaPlayer mp;
     int currentPosition=0; // for media player
 
+    TextView rectangle;
 
    // for songs bar
     private CountDownTimer timer = null;
-    //mediaPlayer.setDataSource(PATH);
-    //mediaPlayer.prepare();
-    //mediaPlayer.start();
+
+
+
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,25 +54,15 @@ public class EasyModeActivity extends Activity {
         score_field=(TextView)findViewById(R.id.score_field_game);
         // media player
         mp=MediaPlayer.create(EasyModeActivity.this, R.raw.track);
-        // tiles
-        tile_one=(TextView)findViewById(R.id.note_one);
-        tile_two=(TextView)findViewById(R.id.note_two);
-        tile_three=(TextView)findViewById(R.id.note_three);
+
         // layout
         first_layout=(ConstraintLayout) findViewById(R.id.first_layout);
         second_layout=(ConstraintLayout) findViewById(R.id.second_layout);
         third_layout=(ConstraintLayout) findViewById(R.id.third_layout);
 
-        addElements(first_layout);
-        addElements(second_layout);
-        addElements(third_layout);
 
-        // add falling rectangles to layouts
-        /*TextView test = new TextView(this);
-        test.setBackgroundResource(R.drawable.note);
-        test.setText("hey");
-        test.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, 140));
-        first_layout.addView(test);*/
+        //addElements(first_layout);
+
 
         tap_one_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,38 +150,43 @@ public class EasyModeActivity extends Activity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        rectangle=addElements(first_layout);
+        startAnimation(rectangle,first_layout);
+        rectangle=addElements(second_layout);
+    }
+
+
+    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         if(hasFocus) {
-
-                Animation animation_one = new TranslateAnimation(0, 0,0, first_layout.getHeight() - tile_one.getY() - tile_one.getHeight() - tap_one_btn.getHeight() * 2);
-                animation_one.setDuration(1000);
-                animation_one.setRepeatCount(Animation.INFINITE);
-
-                Animation animation_two = new TranslateAnimation(0, 0,0, second_layout.getHeight() - tile_two.getY() - tile_two.getHeight() - tap_two_btn.getHeight() * 2);
-                animation_two.setDuration(1000);
-                animation_two.setRepeatCount(Animation.INFINITE);
-
-                Animation animation_three = new TranslateAnimation(0, 0,0, third_layout.getHeight() - tile_three.getY() - tile_three.getHeight() - tap_three_btn.getHeight() * 2);
-                animation_three.setDuration(1000);
-                animation_three.setRepeatCount(Animation.INFINITE);
-
-
-                tile_one.startAnimation(animation_one);
-                tile_two.startAnimation(animation_two);
-                tile_three.startAnimation(animation_three);
-
-
+            //addElements(first_layout);
+            rectangle=addElements(first_layout);
+            startAnimation(rectangle,first_layout);
+            //addElements(second_layout);
+            //addElements(third_layout);
 
         }
     }
 
-    public void addElements(ConstraintLayout layout){
-        TextView test = new TextView(this);
-        test.setBackgroundResource(R.drawable.note);
-        test.setText("hey");
-        test.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, 140));
-        layout.addView(test);
+    public TextView addElements(ConstraintLayout layout){
+            TextView test=new TextView(this);
+            test.setBackgroundResource(R.drawable.note);
+            test.setText("hey");
+            test.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, 140));
+            layout.addView(test);
+            return test;
+
     }
 
+    public void startAnimation(TextView rectangle, ConstraintLayout layout ){
+
+            Animation animation = new TranslateAnimation(0, 0,0, layout.getHeight() - rectangle.getY() - rectangle.getHeight() - tap_one_btn.getHeight() * 2);
+            animation.setDuration(1000);
+            animation.setRepeatCount(Animation.INFINITE);
+            rectangle.startAnimation(animation);
+
+    }
 
 }
