@@ -6,6 +6,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.view.View;
 import android.view.animation.Animation;
@@ -152,9 +153,31 @@ public class EasyModeActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        rectangle=addElements(first_layout);
-        startAnimation(rectangle,first_layout);
-        rectangle=addElements(second_layout);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                //Start your animation here
+                addElements(first_layout);
+            }
+        },10);
+
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                //Start your animation here
+                addElements(second_layout);
+            }
+        },100);
+
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                //Start your animation here
+                addElements(third_layout);
+            }
+        },1000);
+
+
+        //rectangle=addElements(second_layout);
     }
 
 
@@ -162,21 +185,22 @@ public class EasyModeActivity extends Activity {
     public void onWindowFocusChanged(boolean hasFocus) {
         if(hasFocus) {
             //addElements(first_layout);
-            rectangle=addElements(first_layout);
-            startAnimation(rectangle,first_layout);
+            //rectangle=addElements(first_layout);
+            //startAnimation(rectangle,first_layout);
             //addElements(second_layout);
             //addElements(third_layout);
 
         }
     }
 
-    public TextView addElements(ConstraintLayout layout){
+    public void addElements(ConstraintLayout layout){
             TextView test=new TextView(this);
             test.setBackgroundResource(R.drawable.note);
             test.setText("hey");
             test.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, 140));
             layout.addView(test);
-            return test;
+            startAnimation(test, layout);
+
 
     }
 
