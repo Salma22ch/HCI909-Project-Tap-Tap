@@ -114,7 +114,7 @@ public class EasyModeActivity extends Activity {
             public void onClick(View view) {
                 first_layout.setBackgroundResource(R.drawable.redborder);
 
-                if(track_part_array[prog]==1) {
+                if(track_part_array[prog+1]==1) {
                     int present_score = Integer.parseInt(score_field.getText().toString());
                     present_score++;
                     score_field.setText(String.valueOf(present_score));
@@ -139,7 +139,7 @@ public class EasyModeActivity extends Activity {
 
                 second_layout.setBackgroundResource(R.drawable.blueborder);
 
-                if(track_part_array[prog]==2) {
+                if(track_part_array[prog+1]==2) {
                     int present_score = Integer.parseInt(score_field.getText().toString());
                     present_score++;
                     score_field.setText(String.valueOf(present_score));
@@ -164,7 +164,7 @@ public class EasyModeActivity extends Activity {
             public void onClick(View view) {
                 third_layout.setBackgroundResource(R.drawable.greenborder);
 
-                if(track_part_array[prog]==3) {
+                if(track_part_array[prog+1]==3) {
                     int present_score = Integer.parseInt(score_field.getText().toString());
                     present_score++;
                     score_field.setText(String.valueOf(present_score));
