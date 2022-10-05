@@ -172,6 +172,13 @@ public class EasyModeActivity extends Activity {
         handler.postDelayed(new Runnable() {
             public void run() {
                 //Start your animation here
+                addElements(first_layout);
+            }
+        },800);
+
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                //Start your animation here
                 addElements(third_layout);
             }
         },1000);
@@ -184,11 +191,6 @@ public class EasyModeActivity extends Activity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         if(hasFocus) {
-            //addElements(first_layout);
-            //rectangle=addElements(first_layout);
-            //startAnimation(rectangle,first_layout);
-            //addElements(second_layout);
-            //addElements(third_layout);
 
         }
     }
@@ -201,12 +203,17 @@ public class EasyModeActivity extends Activity {
             layout.addView(test);
             startAnimation(test, layout);
 
+    }
 
+    public void removeElements(ConstraintLayout layout){
+        // remove child
+        //View ViewToRemove = layout.GetChildAt (1);
+        //layout.RemoveView (ViewToRemove);
     }
 
     public void startAnimation(TextView rectangle, ConstraintLayout layout ){
-
-            Animation animation = new TranslateAnimation(0, 0,0, layout.getHeight() - rectangle.getY() - rectangle.getHeight() - tap_one_btn.getHeight() * 2);
+            //  rectangle.getY() - rectangle.getHeight() - tap_one_btn.getHeight() * 3
+            Animation animation = new TranslateAnimation(0, 0,0, layout.getHeight() );
             animation.setDuration(1000);
             animation.setRepeatCount(Animation.INFINITE);
             rectangle.startAnimation(animation);
