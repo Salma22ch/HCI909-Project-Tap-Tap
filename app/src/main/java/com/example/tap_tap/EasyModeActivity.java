@@ -166,18 +166,13 @@ public class EasyModeActivity extends Activity {
         super.onStart();
 
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                //Start your animation here
-                addElements(first_layout);
-            }
-        },10);
+
 
         int progress=0;
         for(int i=1; i<track_part_number;i++){
             switch (track_part_array[i]){
                 case 1:
-                    progress+=800;
+                    progress+=1100;
                     handler.postDelayed(new Runnable() {
                         public void run() {
                             //Start your animation here
@@ -187,7 +182,7 @@ public class EasyModeActivity extends Activity {
 
 
                 case 2:
-                    progress+=800;
+                    progress+=1100;
                     handler.postDelayed(new Runnable() {
                         public void run() {
                             //Start your animation here
@@ -197,7 +192,7 @@ public class EasyModeActivity extends Activity {
 
 
                 case 3:
-                    progress+=800;
+                    progress+=1100;
                     handler.postDelayed(new Runnable() {
                         public void run() {
                             //Start your animation here
@@ -207,9 +202,9 @@ public class EasyModeActivity extends Activity {
 
             }
 
+        //if(i==track_part_number/5 || i==track_part_number*2/5 || i==track_part_number*3/5 ) progress=0;
 
-
-
+        System.out.println(progress);
 
 
 
@@ -228,12 +223,14 @@ public class EasyModeActivity extends Activity {
     }
 
     public void addElements(ConstraintLayout layout){
+
             TextView test=new TextView(this);
             test.setBackgroundResource(R.drawable.note);
             test.setText("hey");
             test.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, 140));
             layout.addView(test);
             startAnimation(test, layout);
+
 
     }
 
