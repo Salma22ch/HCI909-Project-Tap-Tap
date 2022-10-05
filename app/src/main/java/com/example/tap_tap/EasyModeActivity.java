@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -41,7 +42,9 @@ public class EasyModeActivity extends Activity {
     int track_part_number;
     int currentPosition=0; // for media player
 
-    TextView rectangle;
+    //progress bar
+    ProgressBar progressbar;
+    int prog=1;
 
    // for songs bar
     private CountDownTimer timer = null;
@@ -78,8 +81,24 @@ public class EasyModeActivity extends Activity {
         second_layout=(ConstraintLayout) findViewById(R.id.second_layout);
         third_layout=(ConstraintLayout) findViewById(R.id.third_layout);
 
+        //progress bar
         mp.start();
+        progressbar=findViewById(R.id.music_progress_bar);
+        progressbar.setMax(track_duration);
 
+
+        new CountDownTimer(track_duration*1000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                prog++;
+                progressbar.setProgress(prog*track_duration/100);
+            }
+
+            public void onFinish() {
+                progressbar.setProgress(100);
+                mp.stop();
+            }
+        }.start();
 
 
         tap_one_btn.setOnClickListener(new View.OnClickListener() {
