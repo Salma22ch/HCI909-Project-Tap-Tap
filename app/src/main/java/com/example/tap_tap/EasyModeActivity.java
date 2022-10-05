@@ -87,6 +87,7 @@ public class EasyModeActivity extends Activity {
                 int present_score = Integer.parseInt(score_field.getText().toString());
                 present_score++;
                 score_field.setText(String.valueOf(present_score));
+                removeElements(first_layout);
                 currentPosition = mp.getCurrentPosition();
                 mp.seekTo(currentPosition +800);
                 mp.start();
@@ -100,6 +101,7 @@ public class EasyModeActivity extends Activity {
                         first_layout.setBackgroundResource(R.drawable.border);
                     }
                 }.start();
+
             }
         });
 
@@ -164,7 +166,6 @@ public class EasyModeActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-
         Handler handler = new Handler();
 
 
@@ -179,6 +180,7 @@ public class EasyModeActivity extends Activity {
                             addElements(first_layout);
                         }
                     },progress);
+
 
 
                 case 2:
@@ -202,13 +204,11 @@ public class EasyModeActivity extends Activity {
 
             }
 
-        //if(i==track_part_number/5 || i==track_part_number*2/5 || i==track_part_number*3/5 ) progress=0;
-
-        System.out.println(progress);
 
 
 
         }
+
 
 
         //rectangle=addElements(second_layout);
@@ -234,18 +234,19 @@ public class EasyModeActivity extends Activity {
 
     }
 
-   /*   public void removeElements(ConstraintLayout layout){
+      public void removeElements(ConstraintLayout layout){
         // remove child
-        View ViewToRemove = layout.GetChildAt (1);
-        layout.RemoveView (ViewToRemove);
-    }*/
+        if(layout.getChildAt(1) !=null) layout.removeViews(1, layout.getChildCount() - 1);
+    }
 
     public void startAnimation(TextView rectangle, ConstraintLayout layout ){
-            //  rectangle.getY() - rectangle.getHeight() - tap_one_btn.getHeight() * 3
+
             Animation animation = new TranslateAnimation(0, 0,0, layout.getHeight() );
             animation.setDuration(1000);
-            animation.setRepeatCount(Animation.INFINITE);
+            //animation.setRepeatCount(Animation.INFINITE);
             rectangle.startAnimation(animation);
+            rectangle.setVisibility(View.INVISIBLE);
+
 
     }
 
