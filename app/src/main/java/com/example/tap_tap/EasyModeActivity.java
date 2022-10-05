@@ -35,6 +35,7 @@ public class EasyModeActivity extends Activity {
     ConstraintLayout third_layout;
 
     MediaPlayer mp;
+    MediaPlayer vibrate_mp;
     int track_duration;
     int[] track_part_array;
     int track_part_number;
@@ -62,6 +63,7 @@ public class EasyModeActivity extends Activity {
         score_field=(TextView)findViewById(R.id.score_field_game);
         // media player
         mp=MediaPlayer.create(EasyModeActivity.this, R.raw.track);
+        vibrate_mp=MediaPlayer.create(EasyModeActivity.this, R.raw.vibration);
         track_duration=mp.getDuration();
         track_part_number=(int)(track_duration/800);
         track_part_array=new int[track_part_number];
@@ -76,7 +78,7 @@ public class EasyModeActivity extends Activity {
         second_layout=(ConstraintLayout) findViewById(R.id.second_layout);
         third_layout=(ConstraintLayout) findViewById(R.id.third_layout);
 
-
+        mp.start();
 
 
 
@@ -84,10 +86,10 @@ public class EasyModeActivity extends Activity {
             @Override
             public void onClick(View view) {
                 first_layout.setBackgroundResource(R.drawable.redborder);
+
                 int present_score = Integer.parseInt(score_field.getText().toString());
                 present_score++;
                 score_field.setText(String.valueOf(present_score));
-                removeElements(first_layout);
                 currentPosition = mp.getCurrentPosition();
                 mp.seekTo(currentPosition +800);
                 mp.start();
@@ -234,10 +236,7 @@ public class EasyModeActivity extends Activity {
 
     }
 
-      public void removeElements(ConstraintLayout layout){
-        // remove child
-        if(layout.getChildAt(1) !=null) layout.removeViews(1, layout.getChildCount() - 1);
-    }
+
 
     public void startAnimation(TextView rectangle, ConstraintLayout layout ){
 
