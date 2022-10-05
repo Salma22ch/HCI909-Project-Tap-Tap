@@ -4,6 +4,7 @@ package com.example.tap_tap;
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -15,8 +16,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class EasyModeActivity extends Activity {
@@ -32,6 +35,9 @@ public class EasyModeActivity extends Activity {
     ConstraintLayout third_layout;
 
     MediaPlayer mp;
+    int track_duration;
+    int[] track_part_array;
+    int track_part_number;
     int currentPosition=0; // for media player
 
     TextView rectangle;
@@ -43,6 +49,7 @@ public class EasyModeActivity extends Activity {
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +62,14 @@ public class EasyModeActivity extends Activity {
         score_field=(TextView)findViewById(R.id.score_field_game);
         // media player
         mp=MediaPlayer.create(EasyModeActivity.this, R.raw.track);
+        track_duration=mp.getDuration();
+        track_part_number=(int)(track_duration/800);
+        track_part_array=new int[track_part_number];
+        for(int i=0;i<track_part_number;i++)
+        {
+            track_part_array[i] = ThreadLocalRandom.current().nextInt(1,3);
+        }
+
 
         // layout
         first_layout=(ConstraintLayout) findViewById(R.id.first_layout);
@@ -62,7 +77,7 @@ public class EasyModeActivity extends Activity {
         third_layout=(ConstraintLayout) findViewById(R.id.third_layout);
 
 
-        //addElements(first_layout);
+
 
 
         tap_one_btn.setOnClickListener(new View.OnClickListener() {
@@ -72,14 +87,12 @@ public class EasyModeActivity extends Activity {
                 int present_score = Integer.parseInt(score_field.getText().toString());
                 present_score++;
                 score_field.setText(String.valueOf(present_score));
-                //mp_one=MediaPlayer.create(EasyModeActivity.this, R.raw.track);
-                //mp=MediaPlayer.create(EasyModeActivity.this, R.raw.track);
                 currentPosition = mp.getCurrentPosition();
-                mp.seekTo(currentPosition +1);
+                mp.seekTo(currentPosition +800);
                 mp.start();
 
 
-                new CountDownTimer(1000, 1000) {
+                new CountDownTimer(800, 800) {
                     public void onTick(long millisUntilFinished) {
                     }
                     public void onFinish() {
@@ -105,11 +118,10 @@ public class EasyModeActivity extends Activity {
                 score_field.setText(String.valueOf(present_score));
                 second_layout.setBackgroundResource(R.drawable.blueborder);
                 currentPosition = mp.getCurrentPosition();
-                //mp=MediaPlayer.create(EasyModeActivity.this, R.raw.track);
-                mp.seekTo(currentPosition +1);
+                mp.seekTo(currentPosition +800);
                 mp.start();
 
-                new CountDownTimer(1000, 1000) {
+                new CountDownTimer(800, 800) {
                     public void onTick(long millisUntilFinished) {
 
                     }
@@ -131,13 +143,12 @@ public class EasyModeActivity extends Activity {
                 present_score++;
                 score_field.setText(String.valueOf(present_score));
                 currentPosition = mp.getCurrentPosition();
-                //mp=MediaPlayer.create(EasyModeActivity.this, R.raw.track);
-                mp.seekTo(currentPosition +1);
+                mp.seekTo(currentPosition +800);
                 mp.start();
 
 
 
-                new CountDownTimer(1000, 1000) {
+                new CountDownTimer(800, 800) {
                     public void onTick(long millisUntilFinished) {
 
                     }
@@ -162,26 +173,47 @@ public class EasyModeActivity extends Activity {
             }
         },10);
 
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                //Start your animation here
-                addElements(second_layout);
-            }
-        },100);
+        int progress=0;
+        for(int i=1; i<track_part_number;i++){
+            switch (track_part_array[i]){
+                case 1:
+                    progress+=800;
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            //Start your animation here
+                            addElements(first_layout);
+                        }
+                    },progress);
 
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                //Start your animation here
-                addElements(first_layout);
-            }
-        },800);
 
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                //Start your animation here
-                addElements(third_layout);
+                case 2:
+                    progress+=800;
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            //Start your animation here
+                            addElements(second_layout);
+                        }
+                    },progress);
+
+
+                case 3:
+                    progress+=800;
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            //Start your animation here
+                            addElements(third_layout);
+                        }
+                    },progress);
+
             }
-        },1000);
+
+
+
+
+
+
+
+        }
 
 
         //rectangle=addElements(second_layout);
@@ -205,11 +237,11 @@ public class EasyModeActivity extends Activity {
 
     }
 
-    public void removeElements(ConstraintLayout layout){
+   /*   public void removeElements(ConstraintLayout layout){
         // remove child
-        //View ViewToRemove = layout.GetChildAt (1);
-        //layout.RemoveView (ViewToRemove);
-    }
+        View ViewToRemove = layout.GetChildAt (1);
+        layout.RemoveView (ViewToRemove);
+    }*/
 
     public void startAnimation(TextView rectangle, ConstraintLayout layout ){
             //  rectangle.getY() - rectangle.getHeight() - tap_one_btn.getHeight() * 3
