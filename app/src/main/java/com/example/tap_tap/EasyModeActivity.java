@@ -52,6 +52,7 @@ public class EasyModeActivity extends Activity {
     int current_ps=0;
     //progress bar
     ProgressBar progressbar;
+    TextView timer_pg_bar;
     int prog=1;
 
    // for songs bar
@@ -80,7 +81,7 @@ public class EasyModeActivity extends Activity {
         track_part_array=new int[track_part_number];
         for(int i=0;i<track_part_number;i++)
         {
-            track_part_array[i] = ThreadLocalRandom.current().nextInt(1,3);
+            track_part_array[i] = ThreadLocalRandom.current().nextInt(1,4);
         }
 
 
@@ -91,6 +92,7 @@ public class EasyModeActivity extends Activity {
 
         //progress bar
         mp.start();
+        timer_pg_bar=findViewById(R.id.timer);
         progressbar=findViewById(R.id.music_progress_bar);
         progressbar.setMax(track_duration);
 
@@ -100,6 +102,7 @@ public class EasyModeActivity extends Activity {
             public void onTick(long millisUntilFinished) {
                 prog++;
                 progressbar.setProgress(prog*track_duration/100);
+                timer_pg_bar.setText(String.valueOf(prog));
             }
 
             public void onFinish() {
@@ -113,11 +116,12 @@ public class EasyModeActivity extends Activity {
             @Override
             public void onClick(View view) {
                 first_layout.setBackgroundResource(R.drawable.redborder);
-
                 if(track_part_array[prog+1]==1) {
                     int present_score = Integer.parseInt(score_field.getText().toString());
                     present_score++;
                     score_field.setText(String.valueOf(present_score));
+                }else{
+                    Toast.makeText(getApplicationContext(),"wrong",Toast.LENGTH_SHORT).show();
                 }
 
                 new CountDownTimer(800, 800) {
@@ -138,11 +142,12 @@ public class EasyModeActivity extends Activity {
             public void onClick(View view) {
 
                 second_layout.setBackgroundResource(R.drawable.blueborder);
-
                 if(track_part_array[prog+1]==2) {
                     int present_score = Integer.parseInt(score_field.getText().toString());
                     present_score++;
                     score_field.setText(String.valueOf(present_score));
+                }else{
+                    Toast.makeText(getApplicationContext(),"wrong",Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -168,6 +173,8 @@ public class EasyModeActivity extends Activity {
                     int present_score = Integer.parseInt(score_field.getText().toString());
                     present_score++;
                     score_field.setText(String.valueOf(present_score));
+                }else{
+                    Toast.makeText(getApplicationContext(),"wrong",Toast.LENGTH_SHORT);
                 }
 
 
@@ -259,6 +266,7 @@ public class EasyModeActivity extends Activity {
             animation.setDuration(2000);
             rectangle.startAnimation(animation);
             rectangle.setVisibility(View.INVISIBLE);
+            if(animation.hasEnded()) layout.removeView(rectangle);
 
 
     }
