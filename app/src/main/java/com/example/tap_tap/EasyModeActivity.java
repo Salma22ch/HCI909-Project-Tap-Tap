@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -36,11 +37,12 @@ public class EasyModeActivity extends Activity {
     ConstraintLayout second_layout;
     ConstraintLayout third_layout;
 
-
+    // track details
     MediaPlayer mp;
     MediaPlayer vibrate_mp;
     int track_duration;
-    int[] track_part_array;
+    int[][] track_part_array;
+    //int[][] a = {{1, 2, 3}, {4, 5, 6}, ,};
     int track_part_number;
 
     // progress bar + timer to update the prgress bar
@@ -70,15 +72,16 @@ public class EasyModeActivity extends Activity {
         score_field=(TextView)findViewById(R.id.score_field_game);
 
         // media player
-        mp=MediaPlayer.create(EasyModeActivity.this, R.raw.track);
-        vibrate_mp=MediaPlayer.create(EasyModeActivity.this, R.raw.vibration);
+        mp=MediaPlayer.create(EasyModeActivity.this, R.raw.furshort);
         track_duration=mp.getDuration();
         track_part_number=(int)(track_duration/1000);
-        track_part_array=new int[track_part_number];
+        track_part_array=new int[track_part_number][3];
 
         for(int i=0;i<track_part_number;i++)
         {
-            track_part_array[i] = ThreadLocalRandom.current().nextInt(1,4);
+            track_part_array[i][0] = ThreadLocalRandom.current().nextInt(1,4);
+            track_part_array[i][1] = 0;
+            track_part_array[i][2] = 0;
         }
 
 
@@ -92,15 +95,16 @@ public class EasyModeActivity extends Activity {
         mp.start();
         timer_pg_bar=findViewById(R.id.timer);
         progressbar=findViewById(R.id.music_progress_bar);
-        progressbar.setMax(track_duration);
 
 
-        new CountDownTimer(track_duration*1000, 1000) {
+        new CountDownTimer(track_duration, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 prog++;
-                progressbar.setProgress(prog*track_duration/100);
+                int level=prog*1000*100/track_duration;
+                progressbar.setProgress(level);
                 timer_pg_bar.setText(String.valueOf(prog));
+
             }
 
             public void onFinish() {
@@ -113,11 +117,11 @@ public class EasyModeActivity extends Activity {
         }.start();
 
 
-        tap_one_btn.setOnClickListener(new View.OnClickListener() {
+        first_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 first_layout.setBackgroundResource(R.drawable.redborder);
-                if(track_part_array[prog+1]==1) {
+                if(track_part_array[prog+1][0]==1) {
                     int present_score = Integer.parseInt(score_field.getText().toString());
                     present_score++;
                     score_field.setText(String.valueOf(present_score));
@@ -138,12 +142,12 @@ public class EasyModeActivity extends Activity {
 
 
 
-        tap_two_btn.setOnClickListener(new View.OnClickListener() {
+        second_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 second_layout.setBackgroundResource(R.drawable.blueborder);
-                if(track_part_array[prog+1]==2) {
+                if(track_part_array[prog+1][0]==2) {
                     int present_score = Integer.parseInt(score_field.getText().toString());
                     present_score++;
                     score_field.setText(String.valueOf(present_score));
@@ -165,12 +169,12 @@ public class EasyModeActivity extends Activity {
             }
         });
 
-        tap_three_btn.setOnClickListener(new View.OnClickListener() {
+        third_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 third_layout.setBackgroundResource(R.drawable.greenborder);
 
-                if(track_part_array[prog+1]==3) {
+                if(track_part_array[prog+1][0]==3) {
                     int present_score = Integer.parseInt(score_field.getText().toString());
                     present_score++;
                     score_field.setText(String.valueOf(present_score));
@@ -200,7 +204,7 @@ public class EasyModeActivity extends Activity {
 
         int progress=0;
         for(int i=1; i<track_part_number;i++){
-            switch (track_part_array[i]){
+            switch (track_part_array[i][0]){
                 case 1: {
                     progress += 1000;
                     handler.postDelayed(new Runnable() {
