@@ -278,8 +278,8 @@ public class EasyModeActivity extends Activity {
 
     public void startAnimation(TextView rectangle, ConstraintLayout layout ){
             // parameter + condition ternaire => clicked disappear, not clicked whole lyout
-            Animation animation = new TranslateAnimation(0, 0,0, layout.getHeight() );
-            animation.setDuration(2000);
+            Animation animation = new TranslateAnimation(0, 0,-layout.getHeight(), layout.getHeight()*2 );
+            animation.setDuration(5000);
             rectangle.startAnimation(animation);
             rectangle.setVisibility(View.INVISIBLE);
 
