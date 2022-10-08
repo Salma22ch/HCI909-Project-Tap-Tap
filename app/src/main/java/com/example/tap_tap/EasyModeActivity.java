@@ -42,7 +42,10 @@ public class EasyModeActivity extends Activity {
     MediaPlayer vibrate_mp;
     int track_duration;
     int[][] track_part_array;
-    //int[][] a = {{1, 2, 3}, {4, 5, 6}, ,};
+    // e,d,e,d,e,b,d,c,a -long a-c,e,a,b,e,a,b,c -- e,d,e,d,e,b,d,c,a -long a-
+
+
+
     int track_part_number;
 
     // progress bar + timer to update the prgress bar
@@ -97,7 +100,7 @@ public class EasyModeActivity extends Activity {
         progressbar=findViewById(R.id.music_progress_bar);
 
 
-        new CountDownTimer(track_duration, 1000) {
+        new CountDownTimer(track_duration-3000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 prog++;
@@ -121,6 +124,7 @@ public class EasyModeActivity extends Activity {
             @Override
             public void onClick(View view) {
                 first_layout.setBackgroundResource(R.drawable.redborder);
+                Log.v("track",String.valueOf(track_part_array.length+"["+prog));
                 if(track_part_array[prog+1][0]==1) {
                     int present_score = Integer.parseInt(score_field.getText().toString());
                     present_score++;
@@ -145,8 +149,8 @@ public class EasyModeActivity extends Activity {
         second_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 second_layout.setBackgroundResource(R.drawable.blueborder);
+                Log.v("track",String.valueOf(track_part_array.length+"["+prog));
                 if(track_part_array[prog+1][0]==2) {
                     int present_score = Integer.parseInt(score_field.getText().toString());
                     present_score++;
@@ -173,12 +177,11 @@ public class EasyModeActivity extends Activity {
             @Override
             public void onClick(View view) {
                 third_layout.setBackgroundResource(R.drawable.greenborder);
-
+                Log.v("track",String.valueOf(track_part_array.length+"["+prog));
                 if(track_part_array[prog+1][0]==3) {
                     int present_score = Integer.parseInt(score_field.getText().toString());
                     present_score++;
                     score_field.setText(String.valueOf(present_score));
-                    //third_layout.getChildAt(third_layout.getChildCount()-1).clearAnimation();
                 }else{
                     Toast.makeText(getApplicationContext(),"wrong",Toast.LENGTH_SHORT);
                 }
@@ -201,30 +204,36 @@ public class EasyModeActivity extends Activity {
         super.onStart();
         Handler handler = new Handler();
 
+        int t=1000;
 
+        int[][] a = {{1, 1000, 300}, {2, 1400, 200},{1,2000, 300}, {2, 2400, 200},{1, 3000, 300}, {3, 3400, 200},{2, 3800, 200},{1, 4200, 400},{3, 4800, 600}};
         int progress=0;
-        for(int i=1; i<track_part_number;i++){
-            switch (track_part_array[i][0]){
+        for(int i=0; i<a.length;i++){
+            int lay=a[i][0];
+            int note_time=a[i][1];
+            int note_height=a[i][2];
+            Log.v("case",String.valueOf(a[i][0]));
+            switch (lay){
                 case 1: {
-                    progress += 1000;
+                    //progress += 1000;
                     handler.postDelayed(new Runnable() {
                         public void run() {
                             //Start your animation here
-                            addElements(first_layout, 400);
+                            addElements(first_layout, note_height);
 
                         }
-                    }, progress);
+                    }, note_time);break;
                 }
 
 
                 case 2: {
-                    progress += 1000;
+                    //progress += 1000;
                     handler.postDelayed(new Runnable() {
                         public void run() {
                             //Start your animation here
-                            addElements(second_layout, 300);
+                            addElements(second_layout, note_height);
                         }
-                    }, progress);
+                    }, note_time);break;
                 }
 
 
@@ -233,9 +242,9 @@ public class EasyModeActivity extends Activity {
                     handler.postDelayed(new Runnable() {
                         public void run() {
                             //Start your animation here
-                            addElements(third_layout, 200);
+                            addElements(third_layout, note_height);
                         }
-                    }, progress);
+                    }, note_time);break;
 
                 }
 
@@ -268,7 +277,8 @@ public class EasyModeActivity extends Activity {
 
 
     public void startAnimation(TextView rectangle, ConstraintLayout layout ){
-            Animation animation = new TranslateAnimation(0, 0,0, layout.getHeight() );
+            // parameter + condition ternaire => clicked disappear, not clicked whole lyout
+            Animation animation = new TranslateAnimation(0, 0,0, layout.getHeight()*2/3 );
             animation.setDuration(2000);
             rectangle.startAnimation(animation);
             rectangle.setVisibility(View.INVISIBLE);
