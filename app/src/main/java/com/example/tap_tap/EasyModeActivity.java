@@ -2,14 +2,12 @@ package com.example.tap_tap;
 
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -22,7 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import java.util.Vector;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -37,10 +35,7 @@ public class EasyModeActivity extends Activity {
     ConstraintLayout first_layout;
     ConstraintLayout second_layout;
     ConstraintLayout third_layout;
-    // layout child;
-    Vector<Integer> first_array = new Vector<Integer>();
-    Vector<Integer> second_array = new Vector<Integer>();
-    Vector<Integer> third_array = new Vector<Integer>();
+
 
     MediaPlayer mp;
     MediaPlayer vibrate_mp;
@@ -48,14 +43,12 @@ public class EasyModeActivity extends Activity {
     int[] track_part_array;
     int track_part_number;
 
-
+    // progress bar + timer to update the prgress bar
     int current_ps=0;
     //progress bar
     ProgressBar progressbar;
     TextView timer_pg_bar;
     int prog=1;
-
-   // for songs bar
     private CountDownTimer timer = null;
 
 
@@ -67,18 +60,22 @@ public class EasyModeActivity extends Activity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_easy);
+
         // buttons
         tap_one_btn=(Button)findViewById(R.id.tap_one_btn);
         tap_two_btn=(Button)findViewById(R.id.tap_two_btn);
         tap_three_btn=(Button)findViewById(R.id.tap_three_btn);
+
         // score field
         score_field=(TextView)findViewById(R.id.score_field_game);
+
         // media player
         mp=MediaPlayer.create(EasyModeActivity.this, R.raw.track);
         vibrate_mp=MediaPlayer.create(EasyModeActivity.this, R.raw.vibration);
         track_duration=mp.getDuration();
-        track_part_number=(int)(track_duration/800);
+        track_part_number=(int)(track_duration/1000);
         track_part_array=new int[track_part_number];
+
         for(int i=0;i<track_part_number;i++)
         {
             track_part_array[i] = ThreadLocalRandom.current().nextInt(1,4);
@@ -89,6 +86,7 @@ public class EasyModeActivity extends Activity {
         first_layout=(ConstraintLayout) findViewById(R.id.first_layout);
         second_layout=(ConstraintLayout) findViewById(R.id.second_layout);
         third_layout=(ConstraintLayout) findViewById(R.id.third_layout);
+
 
         //progress bar
         mp.start();
@@ -108,6 +106,9 @@ public class EasyModeActivity extends Activity {
             public void onFinish() {
                 progressbar.setProgress(100);
                 mp.stop();
+                first_layout.removeViews(1, first_layout.getChildCount() - 1);
+                second_layout.removeViews(1, second_layout.getChildCount() - 1);
+                third_layout.removeViews(1, third_layout.getChildCount() - 1);
             }
         }.start();
 
@@ -173,6 +174,7 @@ public class EasyModeActivity extends Activity {
                     int present_score = Integer.parseInt(score_field.getText().toString());
                     present_score++;
                     score_field.setText(String.valueOf(present_score));
+                    //third_layout.getChildAt(third_layout.getChildCount()-1).clearAnimation();
                 }else{
                     Toast.makeText(getApplicationContext(),"wrong",Toast.LENGTH_SHORT);
                 }
@@ -266,7 +268,7 @@ public class EasyModeActivity extends Activity {
             animation.setDuration(2000);
             rectangle.startAnimation(animation);
             rectangle.setVisibility(View.INVISIBLE);
-            if(animation.hasEnded()) layout.removeView(rectangle);
+
 
 
     }
