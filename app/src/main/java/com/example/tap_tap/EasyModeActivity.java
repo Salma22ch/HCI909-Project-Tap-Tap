@@ -15,6 +15,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,8 +26,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 
 public class EasyModeActivity extends Activity {
-    Button tap_one_btn ;
-    Button tap_two_btn ;
+    ImageButton btn_pause;
 
 
     TextView score_field;
@@ -42,7 +42,7 @@ public class EasyModeActivity extends Activity {
     int track_duration;
     int[][] track_part_array;
 
-
+    boolean paused=false;
 
 
     int track_part_number;
@@ -89,8 +89,7 @@ public class EasyModeActivity extends Activity {
         setContentView(R.layout.activity_easy);
 
         // buttons
-        tap_one_btn=(Button)findViewById(R.id.tap_one_btn);
-        tap_two_btn=(Button)findViewById(R.id.tap_two_btn);
+        btn_pause=(ImageButton)findViewById(R.id.btn_pause);
 
 
         // score field
@@ -209,6 +208,13 @@ public class EasyModeActivity extends Activity {
             }
         });
 
+        btn_pause.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                paused=!paused;
+            }
+        });
+
 
     }
 
@@ -291,13 +297,17 @@ public class EasyModeActivity extends Activity {
         translationY.setDuration(2000);
         translationY.start();
 
-        rectangle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rectangle.setVisibility(View.INVISIBLE);
-                Toast.makeText(getApplicationContext(), "Clicked: " ,Toast.LENGTH_SHORT).show();
-            }
-        });
+        if(!paused) {
+            rectangle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    rectangle.setVisibility(View.INVISIBLE);
+                    Toast.makeText(getApplicationContext(), "Clicked: ", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else{
+            translationY.pause();
+        }
 
 
 

@@ -1,6 +1,7 @@
 package com.example.tap_tap;
 
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
@@ -10,6 +11,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
@@ -88,9 +90,7 @@ public class MediumModeActivity extends Activity {
         setContentView(R.layout.activity_medium);
 
         // buttons
-        tap_one_btn=(Button)findViewById(R.id.tap_one_btn);
-        tap_two_btn=(Button)findViewById(R.id.tap_two_btn);
-        tap_three_btn=(Button)findViewById(R.id.tap_three_btn);
+
 
         // score field
         score_field=(TextView)findViewById(R.id.score_field_game);
@@ -329,10 +329,20 @@ public class MediumModeActivity extends Activity {
 
     public void startAnimation(TextView rectangle, ConstraintLayout layout ){
             // parameter + condition ternaire => clicked disappear, not clicked whole lyout
-            Animation animation = new TranslateAnimation(0, 0,- layout.getHeight() , layout.getHeight() );
-            animation.setDuration(3000);
-            rectangle.startAnimation(animation);
-            rectangle.setVisibility(View.INVISIBLE);
+
+
+        ObjectAnimator translationY = ObjectAnimator.ofFloat(rectangle, "translationY", layout.getHeight());
+        translationY.setInterpolator(new AccelerateInterpolator());
+        translationY.setDuration(2000);
+        translationY.start();
+
+        rectangle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rectangle.setVisibility(View.INVISIBLE);
+                Toast.makeText(getApplicationContext(), "Clicked: " ,Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
 
