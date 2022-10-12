@@ -1,6 +1,7 @@
 package com.example.tap_tap;
 
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
@@ -10,6 +11,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
@@ -169,20 +171,7 @@ public class EasyModeActivity extends Activity {
                     }
                 }.start();
 
-                /*ObjectAnimator animator = ObjectAnimator.ofFloat(tap_one_btn,"translationX",100f, -100f);
-                animator.setDuration(1000);
-                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        //ObjectAnimator value = (ObjectAnimator) animator.getAnimatedValue();
 
-
-                        //this value should be used to update properties of views.
-                        //just don't forget to run invalidate function of your views
-                        // to redraw them.
-                    }
-                });
-                animator.start();*/
 
 
             }
@@ -228,11 +217,11 @@ public class EasyModeActivity extends Activity {
         super.onStart();
         Handler handler = new Handler();
 
-        int t=1000;
 
 
 
-        int progress=0;
+
+
         for(int i=0; i<track_part_array.length;i++){
             int lay=track_part_array[i][0];
             int note_time=track_part_array[i][1];
@@ -292,10 +281,24 @@ public class EasyModeActivity extends Activity {
 
     public void startAnimation(TextView rectangle, ConstraintLayout layout ){
             // parameter + condition ternaire => clicked disappear, not clicked whole lyout
-            Animation animation = new TranslateAnimation(0, 0,- layout.getHeight() , layout.getHeight() );
+            /*Animation animation = new TranslateAnimation(0, 0,- layout.getHeight() , layout.getHeight() );
             animation.setDuration(3000);
             rectangle.startAnimation(animation);
-            rectangle.setVisibility(View.INVISIBLE);
+            rectangle.setVisibility(View.INVISIBLE);*/
+
+        ObjectAnimator translationY = ObjectAnimator.ofFloat(rectangle, "translationY", layout.getHeight());
+        translationY.setInterpolator(new AccelerateInterpolator());
+        translationY.setDuration(2000);
+        translationY.start();
+
+        rectangle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rectangle.setVisibility(View.INVISIBLE);
+                Toast.makeText(getApplicationContext(), "Clicked: " ,Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
 
 
