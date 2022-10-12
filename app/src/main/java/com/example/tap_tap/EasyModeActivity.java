@@ -70,24 +70,17 @@ public class EasyModeActivity extends Activity {
             "d","e","d","e","d","e","b","d","c","a","a","c","e","a","b","e","a","b","e",
             "e","g","b","c","a","e","e","d","e","d","e","b","d","c","a","a","c","e","a","b",
             "e","e","c","b","a","a","b","c","d","e","c","g","f","e","d","g","f"};
-    int[] rythm={1,2,1,2,1,3,2,2,2,2,2,1,2,3,1,1,2,3,2,2,
-            1,1,2,1,2,1,3,2,2,2,2,2,1,2,3,1,1,1,3,2,2,
-            1,2,1,2,1,3,2,2,2,2,2,1,2,3,1,1,1,2,3,2,2,
-            1,1,2,1,2,1,3,2,2,2,2,2,1,2,3,1,1,3,2,2,
-            2,1,2,3,1,1,2,3,2,2,3,2,2,1,2,3,3,1,2,3,
-            3,1,2,2,2,1,2,2,3,1,1,3,3,1,1,2,1,2,1,
-            2,1,2,1,2,1,3,2,2,2,2,2,1,2,3,1,2,3,1,
-            1,3,3,2,2,1,1,2,1,2,1,3,2,2,2,2,2,1,2,3,
-            1,1,2,3,2,2,3,2,2,1,2,3,3,1,2,3,3};
+    int[] rythm= {1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 2, 3, 2, 2,
+            1, 1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 1, 3, 2, 2,
+            1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 1, 2, 3, 2, 2,
+            1, 1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 3, 2, 2,
+            2, 1, 2, 3, 1, 1, 2, 3, 2, 2, 3, 2, 2, 1, 2, 3, 3, 1, 2, 3};
     int [] intensite={ 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 200 , 300 , 400 , 500 ,
             300 , 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 500 , 300 , 300 , 300 , 300 , 400 , 500 ,
             300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 ,  300 , 200 , 300 , 400 , 500 ,
             300 , 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 400 , 400 ,
             300 , 300 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 200 , 400 , 500 , 200 , 200 , 300 , 200 , 200 ,
-            200 , 300 , 200 , 400 , 500 , 300 , 200 , 300 , 300 , 500 , 300 , 200 , 200 , 300 , 300 , 300 , 200 , 300 , 200 , 300 ,
-            200 , 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 400 , 300 , 300 , 300 , 400 , 500 ,
-            300 , 200 , 300 , 400 , 500 , 300 , 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 400 , 400 ,
-            500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 200 , 200 , 300 , 400 , 500 , 200 };
+           };
 
 
 
@@ -107,6 +100,7 @@ public class EasyModeActivity extends Activity {
 
         // media player
         mp=MediaPlayer.create(EasyModeActivity.this, R.raw.furshort);
+        //mp.setPlaybackParams(mp.getPlaybackParams().setSpeed((float) 0.95));
         track_duration=mp.getDuration();
         track_part_number=(int)(track_duration/1000);
         track_part_array=new int[rythm.length][3];
@@ -116,7 +110,7 @@ public class EasyModeActivity extends Activity {
         {
             if(i!=0 && rythm[i]==rythm[i-1])
                 p+=1000;
-            else p+=300;
+            else p+=500;
             track_part_array[i][0] = rythm[i];
             track_part_array[i][1] = p;
             track_part_array[i][2] = intensite[i];
@@ -135,7 +129,7 @@ public class EasyModeActivity extends Activity {
         progressbar=findViewById(R.id.music_progress_bar);
 
 
-        new CountDownTimer(track_duration-3000, 1000) {
+        new CountDownTimer(track_duration, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 prog++;
@@ -313,8 +307,8 @@ public class EasyModeActivity extends Activity {
 
     public void startAnimation(TextView rectangle, ConstraintLayout layout ){
             // parameter + condition ternaire => clicked disappear, not clicked whole lyout
-            Animation animation = new TranslateAnimation(0, 0,0, layout.getHeight() );
-            animation.setDuration(2000);
+            Animation animation = new TranslateAnimation(0, 0,- layout.getHeight() , layout.getHeight() );
+            animation.setDuration(3000);
             rectangle.startAnimation(animation);
             rectangle.setVisibility(View.INVISIBLE);
 
