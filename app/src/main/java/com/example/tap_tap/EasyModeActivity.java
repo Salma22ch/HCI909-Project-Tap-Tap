@@ -1,8 +1,6 @@
 package com.example.tap_tap;
 
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
@@ -24,20 +22,17 @@ import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 
-import java.util.concurrent.ThreadLocalRandom;
-
-
 public class EasyModeActivity extends Activity {
     Button tap_one_btn ;
     Button tap_two_btn ;
-    Button tap_three_btn ;
+
 
     TextView score_field;
     AnimationDrawable animation_one;
 
     ConstraintLayout first_layout;
     ConstraintLayout second_layout;
-    ConstraintLayout third_layout;
+
 
     // track details
     MediaPlayer mp;
@@ -72,16 +67,15 @@ public class EasyModeActivity extends Activity {
             "d","e","d","e","d","e","b","d","c","a","a","c","e","a","b","e","a","b","e",
             "e","g","b","c","a","e","e","d","e","d","e","b","d","c","a","a","c","e","a","b",
             "e","e","c","b","a","a","b","c","d","e","c","g","f","e","d","g","f"};
-    int[] rythm= {1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 2, 3, 2, 2,
-            1, 1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 1, 3, 2, 2,
-            1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 1, 2, 3, 2, 2,
-            1, 1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 3, 2, 2,
-            2, 1, 2, 3, 1, 1, 2, 3, 2, 2, 3, 2, 2};
+    int[] rythm= {1, 2, 1, 2, 1, 1, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 2, 1, 2, 2,
+            1, 1, 2, 1, 2, 1, 1, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 1, 1, 2, 2,
+            1, 2, 1, 2, 1, 1, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 1, 2, 1, 2, 2,
+            1, 1, 2, 1, 2, 1, 1, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 1, 2, 2,
+            };
     int [] intensite={ 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 200 , 300 , 400 , 500 ,
             300 , 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 500 , 300 , 300 , 300 , 300 , 400 , 500 ,
             300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 ,  300 , 200 , 300 , 400 , 500 ,
             300 , 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 400 , 400 ,
-            300 , 300 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 200
            };
 
 
@@ -95,7 +89,7 @@ public class EasyModeActivity extends Activity {
         // buttons
         tap_one_btn=(Button)findViewById(R.id.tap_one_btn);
         tap_two_btn=(Button)findViewById(R.id.tap_two_btn);
-        tap_three_btn=(Button)findViewById(R.id.tap_three_btn);
+
 
         // score field
         score_field=(TextView)findViewById(R.id.score_field_game);
@@ -121,8 +115,8 @@ public class EasyModeActivity extends Activity {
 
         // layout
         first_layout=(ConstraintLayout) findViewById(R.id.first_layout);
-        second_layout=(ConstraintLayout) findViewById(R.id.second_layout);
-        third_layout=(ConstraintLayout) findViewById(R.id.third_layout);
+        second_layout=(ConstraintLayout) findViewById(R.id.third_layout);
+
 
 
         //progress bar
@@ -146,7 +140,7 @@ public class EasyModeActivity extends Activity {
                 mp.stop();
                 first_layout.removeViews(1, first_layout.getChildCount() - 1);
                 second_layout.removeViews(1, second_layout.getChildCount() - 1);
-                third_layout.removeViews(1, third_layout.getChildCount() - 1);
+
             }
         }.start();
 
@@ -226,33 +220,7 @@ public class EasyModeActivity extends Activity {
             }
         });
 
-        third_layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                third_layout.setBackgroundResource(R.drawable.greenborder);
-                Log.v("track",String.valueOf(track_part_array.length+"["+prog));
-                if(track_part_array[prog+1][0]==3) {
-                    int present_score = Integer.parseInt(score_field.getText().toString());
-                    present_score+=5;
-                    score_field.setText(String.valueOf(present_score));
-                }else{
-                    int present_score = Integer.parseInt(score_field.getText().toString());
-                    present_score--;
-                    score_field.setText(String.valueOf(present_score));
-                    Toast.makeText(getApplicationContext(),"wrong",Toast.LENGTH_SHORT);
-                }
 
-
-                new CountDownTimer(300, 300) {
-                    public void onTick(long millisUntilFinished) {
-
-                    }
-                    public void onFinish() {
-                        third_layout.setBackgroundResource(R.drawable.border);
-                    }
-                }.start();
-            }
-        });
     }
 
     @Override
@@ -293,16 +261,6 @@ public class EasyModeActivity extends Activity {
                 }
 
 
-                case 3: {
-                    progress += 1000;
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            //Start your animation here
-                            addElements(third_layout, note_height);
-                        }
-                    }, note_time);break;
-
-                }
 
             }
 

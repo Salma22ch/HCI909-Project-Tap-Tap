@@ -116,7 +116,7 @@ public class ExpertModeActivity extends Activity {
 
         // layout
         first_layout=(ConstraintLayout) findViewById(R.id.first_layout);
-        second_layout=(ConstraintLayout) findViewById(R.id.second_layout);
+        second_layout=(ConstraintLayout) findViewById(R.id.second_layout_m);
         third_layout=(ConstraintLayout) findViewById(R.id.third_layout);
 
 
