@@ -114,7 +114,9 @@ public class EasyModeActivity extends Activity {
         int p=1000;
         for(int i=0;i<rythm.length;i++)
         {
-            p+=300;
+            if(i!=0 && rythm[i]==rythm[i-1])
+                p+=600;
+            else p+=200;
             track_part_array[i][0] = rythm[i];
             track_part_array[i][1] = p;
             track_part_array[i][2] = intensite[i];
@@ -311,8 +313,8 @@ public class EasyModeActivity extends Activity {
 
     public void startAnimation(TextView rectangle, ConstraintLayout layout ){
             // parameter + condition ternaire => clicked disappear, not clicked whole lyout
-            Animation animation = new TranslateAnimation(0, 0,-layout.getHeight(), layout.getHeight()*2 );
-            animation.setDuration(5000);
+            Animation animation = new TranslateAnimation(0, 0,-layout.getHeight()/2, layout.getHeight()*2 );
+            animation.setDuration(8000);
             rectangle.startAnimation(animation);
             rectangle.setVisibility(View.INVISIBLE);
 
