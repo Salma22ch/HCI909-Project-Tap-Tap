@@ -18,8 +18,9 @@ public class PickActivity extends AppCompatActivity {
 
         ListView songs_list;
         ImageButton btn_previous;
-        ImageButton btn_next;
-
+        Button btn_easy;
+        Button btn_medium;
+        Button btn_expert;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -27,19 +28,13 @@ public class PickActivity extends AppCompatActivity {
             setContentView(R.layout.activity_pick);
 
 
-            // list view + adapter
-            songs_list=(ListView)findViewById(R.id.listOfSongs);
-            ArrayList<String> songs=new ArrayList<>();
-            songs.add("Track 1");
-            songs.add("Track 2");
-            songs.add("Track 3");
-            songs.add("Track 4");
-            ArrayAdapter songsAdapter= new ArrayAdapter(this, android.R.layout.simple_list_item_1,songs);
-            songs_list.setAdapter(songsAdapter);
+
 
             // Buttons
             btn_previous= (ImageButton) findViewById(R.id.previous);
-            btn_next= (ImageButton) findViewById(R.id.next);
+            btn_easy= (Button) findViewById(R.id.EasyMode);
+            btn_medium= (Button) findViewById(R.id.MediumMode);
+            btn_expert= (Button) findViewById(R.id.ExpertMode);
 
             btn_previous.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -48,10 +43,24 @@ public class PickActivity extends AppCompatActivity {
                 }
             });
 
-            btn_next.setOnClickListener(new View.OnClickListener() {
+            btn_easy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(PickActivity.this, EasyModeActivity.class));
+                }
+            });
+
+            btn_medium.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(PickActivity.this, MediumModeActivity.class));
+                }
+            });
+
+            btn_expert.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(PickActivity.this, ExpertModeActivity.class));
                 }
             });
     }

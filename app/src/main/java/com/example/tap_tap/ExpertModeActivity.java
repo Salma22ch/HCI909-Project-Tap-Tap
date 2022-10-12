@@ -1,8 +1,6 @@
 package com.example.tap_tap;
 
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
@@ -24,10 +22,7 @@ import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 
-import java.util.concurrent.ThreadLocalRandom;
-
-
-public class EasyModeActivity extends Activity {
+public class ExpertModeActivity extends Activity {
     Button tap_one_btn ;
     Button tap_two_btn ;
     Button tap_three_btn ;
@@ -90,7 +85,7 @@ public class EasyModeActivity extends Activity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_easy);
+        setContentView(R.layout.activity_expert);
 
         // buttons
         tap_one_btn=(Button)findViewById(R.id.tap_one_btn);
@@ -101,7 +96,7 @@ public class EasyModeActivity extends Activity {
         score_field=(TextView)findViewById(R.id.score_field_game);
 
         // media player
-        mp=MediaPlayer.create(EasyModeActivity.this, R.raw.furshort);
+        mp=MediaPlayer.create(ExpertModeActivity.this, R.raw.furshort);
         //mp.setPlaybackParams(mp.getPlaybackParams().setSpeed((float) 0.95));
         track_duration=mp.getDuration();
         track_part_number=(int)(track_duration/1000);
