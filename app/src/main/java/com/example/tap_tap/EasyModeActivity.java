@@ -111,12 +111,12 @@ public class EasyModeActivity extends Activity {
         track_part_number=(int)(track_duration/1000);
         track_part_array=new int[rythm.length][3];
 
-        int p=1000;
+        int p=100;
         for(int i=0;i<rythm.length;i++)
         {
             if(i!=0 && rythm[i]==rythm[i-1])
-                p+=600;
-            else p+=200;
+                p+=1000;
+            else p+=300;
             track_part_array[i][0] = rythm[i];
             track_part_array[i][1] = p;
             track_part_array[i][2] = intensite[i];
@@ -160,7 +160,7 @@ public class EasyModeActivity extends Activity {
             public void onClick(View view) {
                 first_layout.setBackgroundResource(R.drawable.redborder);
                 Log.v("track",String.valueOf(track_part_array.length+"["+prog));
-                if(track_part_array[prog+1][0]==1) {
+                if(track_part_array[prog][0]==1) {
                     int present_score = Integer.parseInt(score_field.getText().toString());
                     present_score++;
                     score_field.setText(String.valueOf(present_score));
@@ -186,7 +186,7 @@ public class EasyModeActivity extends Activity {
             public void onClick(View view) {
                 second_layout.setBackgroundResource(R.drawable.blueborder);
                 Log.v("track",String.valueOf(track_part_array.length+"["+prog));
-                if(track_part_array[prog+1][0]==2) {
+                if(track_part_array[prog][0]==2) {
                     int present_score = Integer.parseInt(score_field.getText().toString());
                     present_score++;
                     score_field.setText(String.valueOf(present_score));
@@ -213,7 +213,7 @@ public class EasyModeActivity extends Activity {
             public void onClick(View view) {
                 third_layout.setBackgroundResource(R.drawable.greenborder);
                 Log.v("track",String.valueOf(track_part_array.length+"["+prog));
-                if(track_part_array[prog+1][0]==3) {
+                if(track_part_array[prog][0]==3) {
                     int present_score = Integer.parseInt(score_field.getText().toString());
                     present_score++;
                     score_field.setText(String.valueOf(present_score));
@@ -313,8 +313,8 @@ public class EasyModeActivity extends Activity {
 
     public void startAnimation(TextView rectangle, ConstraintLayout layout ){
             // parameter + condition ternaire => clicked disappear, not clicked whole lyout
-            Animation animation = new TranslateAnimation(0, 0,-layout.getHeight()/2, layout.getHeight()*2 );
-            animation.setDuration(8000);
+            Animation animation = new TranslateAnimation(0, 0,0, layout.getHeight() );
+            animation.setDuration(2000);
             rectangle.startAnimation(animation);
             rectangle.setVisibility(View.INVISIBLE);
 
