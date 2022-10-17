@@ -9,11 +9,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -79,7 +76,7 @@ public class ExpertModeActivity extends Activity {
             300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 ,  300 , 200 , 300 , 400 , 500 ,
             300 , 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 400 , 400 ,
             300 , 300 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 200
-           };
+    };
 
 
 
@@ -87,7 +84,7 @@ public class ExpertModeActivity extends Activity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_expert);
+        setContentView(R.layout.activity_easy);
 
         // buttons
 
@@ -116,7 +113,7 @@ public class ExpertModeActivity extends Activity {
 
         // layout
         first_layout=(ConstraintLayout) findViewById(R.id.first_layout);
-        second_layout=(ConstraintLayout) findViewById(R.id.second_layout_m);
+        second_layout=(ConstraintLayout) findViewById(R.id.second_layout);
         third_layout=(ConstraintLayout) findViewById(R.id.third_layout);
 
 
@@ -150,17 +147,9 @@ public class ExpertModeActivity extends Activity {
             @Override
             public void onClick(View view) {
                 first_layout.setBackgroundResource(R.drawable.redborder);
-                Log.v("track",String.valueOf(track_part_array.length+"["+prog));
-                if(track_part_array[prog+1][0]==1 ) {
-                    int present_score = Integer.parseInt(score_field.getText().toString());
-                    present_score+=5;
-                    score_field.setText(String.valueOf(present_score));
-                }else{
-                    int present_score = Integer.parseInt(score_field.getText().toString());
-                    present_score--;
-                    score_field.setText(String.valueOf(present_score));
-                    Toast.makeText(getApplicationContext(),"wrong",Toast.LENGTH_SHORT).show();
-                }
+                int present_score = Integer.parseInt(score_field.getText().toString());
+                present_score--;
+                score_field.setText(String.valueOf(present_score));
 
                 new CountDownTimer(300, 300) {
                     public void onTick(long millisUntilFinished) {
@@ -169,21 +158,6 @@ public class ExpertModeActivity extends Activity {
                         first_layout.setBackgroundResource(R.drawable.border);
                     }
                 }.start();
-
-                /*ObjectAnimator animator = ObjectAnimator.ofFloat(tap_one_btn,"translationX",100f, -100f);
-                animator.setDuration(1000);
-                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        //ObjectAnimator value = (ObjectAnimator) animator.getAnimatedValue();
-
-
-                        //this value should be used to update properties of views.
-                        //just don't forget to run invalidate function of your views
-                        // to redraw them.
-                    }
-                });
-                animator.start();*/
 
 
             }
@@ -194,19 +168,10 @@ public class ExpertModeActivity extends Activity {
         second_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                second_layout.setBackgroundResource(R.drawable.blueborder);
-                Log.v("track",String.valueOf(track_part_array.length+"["+prog));
-                if(track_part_array[prog+1][0]==2 ) {
-                    int present_score = Integer.parseInt(score_field.getText().toString());
-                    present_score+=5;
-                    score_field.setText(String.valueOf(present_score));
-                }else{
-                    int present_score = Integer.parseInt(score_field.getText().toString());
-                    present_score--;
-                    score_field.setText(String.valueOf(present_score));
-                    Toast.makeText(getApplicationContext(),"wrong",Toast.LENGTH_SHORT).show();
-                }
-
+                second_layout.setBackgroundResource(R.drawable.redborder);
+                int present_score = Integer.parseInt(score_field.getText().toString());
+                present_score--;
+                score_field.setText(String.valueOf(present_score));
 
                 new CountDownTimer(300, 300) {
                     public void onTick(long millisUntilFinished) {
@@ -224,19 +189,10 @@ public class ExpertModeActivity extends Activity {
         third_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                third_layout.setBackgroundResource(R.drawable.greenborder);
-                Log.v("track",String.valueOf(track_part_array.length+"["+prog));
-                if(track_part_array[prog+1][0]==3) {
-                    int present_score = Integer.parseInt(score_field.getText().toString());
-                    present_score+=5;
-                    score_field.setText(String.valueOf(present_score));
-                }else{
-                    int present_score = Integer.parseInt(score_field.getText().toString());
-                    present_score--;
-                    score_field.setText(String.valueOf(present_score));
-                    Toast.makeText(getApplicationContext(),"wrong",Toast.LENGTH_SHORT);
-                }
-
+                third_layout.setBackgroundResource(R.drawable.redborder);
+                int present_score = Integer.parseInt(score_field.getText().toString());
+                present_score--;
+                score_field.setText(String.valueOf(present_score));
 
                 new CountDownTimer(300, 300) {
                     public void onTick(long millisUntilFinished) {
@@ -316,19 +272,20 @@ public class ExpertModeActivity extends Activity {
 
     public void addElements(ConstraintLayout layout, int heigh){
 
-            Button test=new Button(this);
-            test.setBackgroundResource(R.drawable.note);
-            test.setText("hey");
-            test.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, heigh));
-            layout.addView(test);
-            startAnimation(test, layout);
+        Button test=new Button(this);
+        test.setBackgroundResource(R.drawable.note);
+        test.setText("hey");
+        test.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, heigh));
+        layout.addView(test);
+        startAnimation(test, layout);
 
     }
 
 
 
     public void startAnimation(TextView rectangle, ConstraintLayout layout ){
-            // parameter + condition ternaire => clicked disappear, not clicked whole lyout
+        // parameter + condition ternaire => clicked disappear, not clicked whole lyout
+
 
         ObjectAnimator translationY = ObjectAnimator.ofFloat(rectangle, "translationY", layout.getHeight());
         translationY.setInterpolator(new AccelerateInterpolator());
@@ -339,12 +296,13 @@ public class ExpertModeActivity extends Activity {
             @Override
             public void onClick(View v) {
                 int present_score = Integer.parseInt(score_field.getText().toString());
-                present_score+=5;
+                present_score--;
                 score_field.setText(String.valueOf(present_score));
                 rectangle.setVisibility(View.INVISIBLE);
                 Toast.makeText(getApplicationContext(), "Clicked: " ,Toast.LENGTH_SHORT).show();
             }
         });
+
 
 
     }

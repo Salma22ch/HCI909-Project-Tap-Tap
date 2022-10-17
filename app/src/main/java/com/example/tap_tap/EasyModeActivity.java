@@ -9,13 +9,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,15 +22,16 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 
 public class EasyModeActivity extends Activity {
-    ImageButton btn_pause;
-
+    Button tap_one_btn ;
+    Button tap_two_btn ;
+    Button tap_three_btn ;
 
     TextView score_field;
     AnimationDrawable animation_one;
 
     ConstraintLayout first_layout;
     ConstraintLayout second_layout;
-
+    ConstraintLayout third_layout;
 
     // track details
     MediaPlayer mp;
@@ -42,7 +39,7 @@ public class EasyModeActivity extends Activity {
     int track_duration;
     int[][] track_part_array;
 
-    boolean paused=false;
+
 
 
     int track_part_number;
@@ -69,16 +66,17 @@ public class EasyModeActivity extends Activity {
             "d","e","d","e","d","e","b","d","c","a","a","c","e","a","b","e","a","b","e",
             "e","g","b","c","a","e","e","d","e","d","e","b","d","c","a","a","c","e","a","b",
             "e","e","c","b","a","a","b","c","d","e","c","g","f","e","d","g","f"};
-    int[] rythm= {1, 2, 1, 2, 1, 1, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 2, 1, 2, 2,
-            1, 1, 2, 1, 2, 1, 1, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 1, 1, 2, 2,
-            1, 2, 1, 2, 1, 1, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 1, 2, 1, 2, 2,
-            1, 1, 2, 1, 2, 1, 1, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 1, 2, 2,
-            };
+    int[] rythm= {1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 2, 3, 2, 2,
+            1, 1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 1, 3, 2, 2,
+            1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 1, 2, 3, 2, 2,
+            1, 1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 3, 2, 2,
+            2, 1, 2, 3, 1, 1, 2, 3, 2, 2, 3, 2, 2};
     int [] intensite={ 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 200 , 300 , 400 , 500 ,
             300 , 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 500 , 300 , 300 , 300 , 300 , 400 , 500 ,
             300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 ,  300 , 200 , 300 , 400 , 500 ,
             300 , 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 400 , 400 ,
-           };
+            300 , 300 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 200
+    };
 
 
 
@@ -89,7 +87,6 @@ public class EasyModeActivity extends Activity {
         setContentView(R.layout.activity_easy);
 
         // buttons
-        btn_pause=(ImageButton)findViewById(R.id.btn_pause);
 
 
         // score field
@@ -116,8 +113,8 @@ public class EasyModeActivity extends Activity {
 
         // layout
         first_layout=(ConstraintLayout) findViewById(R.id.first_layout);
-        second_layout=(ConstraintLayout) findViewById(R.id.third_layout);
-
+        second_layout=(ConstraintLayout) findViewById(R.id.second_layout);
+        third_layout=(ConstraintLayout) findViewById(R.id.third_layout);
 
 
         //progress bar
@@ -141,7 +138,7 @@ public class EasyModeActivity extends Activity {
                 mp.stop();
                 first_layout.removeViews(1, first_layout.getChildCount() - 1);
                 second_layout.removeViews(1, second_layout.getChildCount() - 1);
-
+                third_layout.removeViews(1, third_layout.getChildCount() - 1);
             }
         }.start();
 
@@ -150,17 +147,9 @@ public class EasyModeActivity extends Activity {
             @Override
             public void onClick(View view) {
                 first_layout.setBackgroundResource(R.drawable.redborder);
-                Log.v("track",String.valueOf(track_part_array.length+"["+prog));
-                if(track_part_array[prog+1][0]==1 ) {
-                    int present_score = Integer.parseInt(score_field.getText().toString());
-                    present_score+=5;
-                    score_field.setText(String.valueOf(present_score));
-                }else{
-                    int present_score = Integer.parseInt(score_field.getText().toString());
-                    present_score--;
-                    score_field.setText(String.valueOf(present_score));
-                    Toast.makeText(getApplicationContext(),"wrong",Toast.LENGTH_SHORT).show();
-                }
+                int present_score = Integer.parseInt(score_field.getText().toString());
+                present_score--;
+                score_field.setText(String.valueOf(present_score));
 
                 new CountDownTimer(300, 300) {
                     public void onTick(long millisUntilFinished) {
@@ -171,8 +160,6 @@ public class EasyModeActivity extends Activity {
                 }.start();
 
 
-
-
             }
         });
 
@@ -181,19 +168,10 @@ public class EasyModeActivity extends Activity {
         second_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                second_layout.setBackgroundResource(R.drawable.blueborder);
-                Log.v("track",String.valueOf(track_part_array.length+"["+prog));
-                if(track_part_array[prog+1][0]==2 ) {
-                    int present_score = Integer.parseInt(score_field.getText().toString());
-                    present_score+=5;
-                    score_field.setText(String.valueOf(present_score));
-                }else{
-                    int present_score = Integer.parseInt(score_field.getText().toString());
-                    present_score--;
-                    score_field.setText(String.valueOf(present_score));
-                    Toast.makeText(getApplicationContext(),"wrong",Toast.LENGTH_SHORT).show();
-                }
-
+                second_layout.setBackgroundResource(R.drawable.redborder);
+                int present_score = Integer.parseInt(score_field.getText().toString());
+                present_score--;
+                score_field.setText(String.valueOf(present_score));
 
                 new CountDownTimer(300, 300) {
                     public void onTick(long millisUntilFinished) {
@@ -208,14 +186,24 @@ public class EasyModeActivity extends Activity {
             }
         });
 
-        btn_pause.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v)
-            {
-                paused=!paused;
+        third_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                third_layout.setBackgroundResource(R.drawable.redborder);
+                int present_score = Integer.parseInt(score_field.getText().toString());
+                present_score--;
+                score_field.setText(String.valueOf(present_score));
+
+                new CountDownTimer(300, 300) {
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+                    public void onFinish() {
+                        third_layout.setBackgroundResource(R.drawable.border);
+                    }
+                }.start();
             }
         });
-
-
     }
 
     @Override
@@ -223,11 +211,11 @@ public class EasyModeActivity extends Activity {
         super.onStart();
         Handler handler = new Handler();
 
+        int t=1000;
 
 
 
-
-
+        int progress=0;
         for(int i=0; i<track_part_array.length;i++){
             int lay=track_part_array[i][0];
             int note_time=track_part_array[i][1];
@@ -256,6 +244,16 @@ public class EasyModeActivity extends Activity {
                 }
 
 
+                case 3: {
+                    progress += 1000;
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            //Start your animation here
+                            addElements(third_layout, note_height);
+                        }
+                    }, note_time);break;
+
+                }
 
             }
 
@@ -274,41 +272,36 @@ public class EasyModeActivity extends Activity {
 
     public void addElements(ConstraintLayout layout, int heigh){
 
-            Button test=new Button(this);
-            test.setBackgroundResource(R.drawable.note);
-            test.setText("hey");
-            test.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, heigh));
-            layout.addView(test);
-            startAnimation(test, layout);
+        Button test=new Button(this);
+        test.setBackgroundResource(R.drawable.note);
+        test.setText("hey");
+        test.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, heigh));
+        layout.addView(test);
+        startAnimation(test, layout);
 
     }
 
 
 
     public void startAnimation(TextView rectangle, ConstraintLayout layout ){
-            // parameter + condition ternaire => clicked disappear, not clicked whole lyout
-            /*Animation animation = new TranslateAnimation(0, 0,- layout.getHeight() , layout.getHeight() );
-            animation.setDuration(3000);
-            rectangle.startAnimation(animation);
-            rectangle.setVisibility(View.INVISIBLE);*/
+        // parameter + condition ternaire => clicked disappear, not clicked whole lyout
+
 
         ObjectAnimator translationY = ObjectAnimator.ofFloat(rectangle, "translationY", layout.getHeight());
         translationY.setInterpolator(new AccelerateInterpolator());
         translationY.setDuration(2000);
         translationY.start();
 
-        if(!paused) {
-            rectangle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    rectangle.setVisibility(View.INVISIBLE);
-                    Toast.makeText(getApplicationContext(), "Clicked: ", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }else{
-            translationY.pause();
-        }
-
+        rectangle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int present_score = Integer.parseInt(score_field.getText().toString());
+                present_score--;
+                score_field.setText(String.valueOf(present_score));
+                rectangle.setVisibility(View.INVISIBLE);
+                Toast.makeText(getApplicationContext(), "Clicked: " ,Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
 
