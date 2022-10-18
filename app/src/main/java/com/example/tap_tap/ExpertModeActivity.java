@@ -21,6 +21,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static android.media.MediaPlayer.SEEK_NEXT_SYNC;
@@ -261,6 +263,12 @@ public class ExpertModeActivity extends Activity {
 
     }
 
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        pauseGame();
+        // dialog
+    }
 
 
     @Override
@@ -268,6 +276,13 @@ public class ExpertModeActivity extends Activity {
         if(hasFocus) {
 
         }
+    }
+
+    public String loadJSONFromAsset() {
+        String json = null;
+        File fileJson = new File(getApplicationContext().getExternalFilesDir("/app"), "score.json");
+        //String strFileJson = getStringFromFile(fileJson.toString());
+        return json;
     }
 
     public void addElements(ConstraintLayout layout, int heigh){
@@ -320,6 +335,7 @@ public class ExpertModeActivity extends Activity {
                 first_layout.removeViews(1, first_layout.getChildCount() - 1);
                 second_layout.removeViews(1, second_layout.getChildCount() - 1);
                 third_layout.removeViews(1, third_layout.getChildCount() - 1);
+
             }
         }.start();
     }
