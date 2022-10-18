@@ -66,13 +66,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="4">
 
             <TextView
                 android:id="@+id/score_field_game"
-                android:layout_width="109dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="100dp"
+                android:layout_marginEnd="250dp"
+                android:layout_weight="1"
                 android:background="@color/white"
                 android:paddingLeft="20dp"
                 android:paddingTop="10dp"
@@ -84,13 +86,11 @@
                 android:id="@+id/highest_score"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="4"
+                android:layout_marginLeft="50dp"
+                android:layout_weight="1"
                 android:padding="5dp"
-                android:text="Best: "
-                android:textSize="20sp" />
+                android:text="0"
+                android:textSize="24sp" />
 
         </LinearLayout>
 
@@ -99,7 +99,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:weightSum="6">
+            android:weightSum="7">
 
             <ProgressBar
                 android:id="@+id/music_progress_bar"
@@ -108,7 +108,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
-                android:layout_weight="4"
+                android:layout_weight="5"
                 android:progressDrawable="@drawable/custom_progress_bar" />
 
             <TextView
@@ -122,14 +122,14 @@
                 android:text="@string/timer_pg_bar"
                 android:textSize="20sp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_pause"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
+                android:layout_width="1dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/ic_pause"
-                 />
+                android:background="@drawable/ic_pause_circle"
+                android:backgroundTint="@android:color/holo_blue_dark" />
 
         </LinearLayout>
 

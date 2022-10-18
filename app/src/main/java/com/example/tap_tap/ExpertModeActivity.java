@@ -4,7 +4,10 @@ package com.example.tap_tap;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,10 +22,16 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import static android.media.MediaPlayer.SEEK_NEXT_SYNC;
@@ -32,6 +41,7 @@ public class ExpertModeActivity extends Activity {
     Button pause_btn;
 
     TextView score_field;
+    TextView best_score;
     AnimationDrawable animation_one;
 
     ConstraintLayout first_layout;
@@ -60,6 +70,8 @@ public class ExpertModeActivity extends Activity {
     private  CountDownTimer progress_bar_timer;
     private int current_ps=0;
     private ArrayList<ObjectAnimator> animator_set=new ArrayList<>();
+    private String strjsonfile=null;
+    private String highscore="";
 
     // song-array
 
@@ -97,8 +109,9 @@ public class ExpertModeActivity extends Activity {
         // buttons
         pause_btn=(Button)findViewById(R.id.btn_pause);
 
-        // score field
+        // score + best score field
         score_field=(TextView)findViewById(R.id.score_field_game);
+        best_score=(TextView)findViewById(R.id.highest_score);
 
         // media player
         mp=MediaPlayer.create(ExpertModeActivity.this, R.raw.furshort);
@@ -129,9 +142,12 @@ public class ExpertModeActivity extends Activity {
         mp.start();
         timer_pg_bar=findViewById(R.id.timer);
         progressbar=findViewById(R.id.music_progress_bar);
-
+        // timer for the progress bar
         startTimer(0);
 
+        // high score
+        highscore=loadHighScore();
+        best_score.setText(highscore);
 
         first_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,10 +214,17 @@ public class ExpertModeActivity extends Activity {
         pause_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("paused");
                 paused=!paused;
-                if(paused) pauseGame();
-                else resumeGame();
+                if(paused) {
+                    pauseGame();
+                    Drawable resume_d=getDrawable(R.drawable.ic_resume);
+                    pause_btn.setBackground(resume_d);
+                } else {
+                    resumeGame();
+                    Drawable pause_d=getDrawable(R.drawable.ic_pause_circle);
+                    pause_btn.setBackground(pause_d);
+                }
+
             }
         });
     }
@@ -265,10 +288,37 @@ public class ExpertModeActivity extends Activity {
 
     @Override
     public void onBackPressed(){
-        super.onBackPressed();
+        //super.onBackPressed();
+        paused=true;
         pauseGame();
         // dialog
+        new AlertDialog.Builder(this)
+                .setTitle("Exit the game")
+                .setMessage("Are you sure you want to exit the game?")
+
+                // Specifying a listener allows you to take an action before dismissing the dialog.
+                // The dialog is automatically dismissed when a dialog button is clicked.
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(ExpertModeActivity.this, PickActivity.class));
+
+                    }
+                })
+
+                // A null listener allows the button to dismiss the dialog and take no further action.
+
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        paused=false;
+                        resumeGame();
+
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+
     }
+
 
 
     @Override
@@ -278,11 +328,22 @@ public class ExpertModeActivity extends Activity {
         }
     }
 
-    public String loadJSONFromAsset() {
+    public String loadHighScore() {
         String json = null;
-        File fileJson = new File(getApplicationContext().getExternalFilesDir("/app"), "score.json");
-        //String strFileJson = getStringFromFile(fileJson.toString());
-        return json;
+        try {
+            InputStream is = this.getAssets().open("hscore.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+            JSONObject jsonobj=new JSONObject(json);
+            return jsonobj.get("expertMode").toString();
+        } catch (IOException | JSONException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+
     }
 
     public void addElements(ConstraintLayout layout, int heigh){
@@ -305,8 +366,8 @@ public class ExpertModeActivity extends Activity {
         translationY.setDuration(2000);
         translationY.start();
         animator_set.add(translationY);
-        if(paused) translationY.pause();
-        rectangle.setOnClickListener(new View.OnClickListener() {
+
+        if(!paused)rectangle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int present_score = Integer.parseInt(score_field.getText().toString());
@@ -315,6 +376,8 @@ public class ExpertModeActivity extends Activity {
                 rectangle.setVisibility(View.INVISIBLE);
             }
         });
+
+        if(paused) translationY.pause();
 
     }
 

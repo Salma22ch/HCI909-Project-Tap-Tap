@@ -1,11 +1,9 @@
 {
-  "HighestScore": [
-    {
+
       "easyMode": "700",
       "mediumMode": "300",
-      "expertMode": "0",
+      "expertMode": "100",
       "lastScore": "200"
-    }
-    ]
+
 
 }
