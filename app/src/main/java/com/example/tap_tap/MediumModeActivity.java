@@ -1,6 +1,7 @@
 package com.example.tap_tap;
 
 
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
@@ -20,11 +21,13 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import java.util.ArrayList;
+
+import static android.media.MediaPlayer.SEEK_NEXT_SYNC;
+
 
 public class MediumModeActivity extends Activity {
-    Button tap_one_btn ;
-    Button tap_two_btn ;
-    Button tap_three_btn ;
+    Button pause_btn;
 
     TextView score_field;
     AnimationDrawable animation_one;
@@ -45,13 +48,16 @@ public class MediumModeActivity extends Activity {
     int track_part_number;
 
     // progress bar + timer to update the prgress bar
-    int current_ps=0;
+
     //progress bar
     ProgressBar progressbar;
     TextView timer_pg_bar;
     int prog=1;
     private CountDownTimer timer = null;
-
+    private boolean paused=false;
+    private  CountDownTimer progress_bar_timer;
+    private int current_ps=0;
+    private ArrayList<ObjectAnimator> animator_set=new ArrayList<>();
 
     // song-array
 
@@ -76,7 +82,7 @@ public class MediumModeActivity extends Activity {
             300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 ,  300 , 200 , 300 , 400 , 500 ,
             300 , 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 400 , 400 ,
             300 , 300 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 200
-           };
+    };
 
 
 
@@ -84,10 +90,10 @@ public class MediumModeActivity extends Activity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_medium);
+        setContentView(R.layout.activity_expert);
 
         // buttons
-
+        pause_btn=(Button)findViewById(R.id.btn_pause);
 
         // score field
         score_field=(TextView)findViewById(R.id.score_field_game);
@@ -122,25 +128,7 @@ public class MediumModeActivity extends Activity {
         timer_pg_bar=findViewById(R.id.timer);
         progressbar=findViewById(R.id.music_progress_bar);
 
-
-        new CountDownTimer(track_duration, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-                prog++;
-                int level=prog*1000*100/track_duration;
-                progressbar.setProgress(level);
-                timer_pg_bar.setText(String.valueOf(prog));
-
-            }
-
-            public void onFinish() {
-                progressbar.setProgress(100);
-                mp.stop();
-                first_layout.removeViews(1, first_layout.getChildCount() - 1);
-                second_layout.removeViews(1, second_layout.getChildCount() - 1);
-                third_layout.removeViews(1, third_layout.getChildCount() - 1);
-            }
-        }.start();
+        startTimer(0);
 
 
         first_layout.setOnClickListener(new View.OnClickListener() {
@@ -204,6 +192,16 @@ public class MediumModeActivity extends Activity {
                 }.start();
             }
         });
+
+        pause_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("paused");
+                paused=!paused;
+                if(paused) pauseGame();
+                else resumeGame();
+            }
+        });
     }
 
     @Override
@@ -211,56 +209,58 @@ public class MediumModeActivity extends Activity {
         super.onStart();
         Handler handler = new Handler();
 
-        int t=1000;
+        int i=0;
+        while(i<track_part_array.length) {
+            if(!paused){
+                int lay = track_part_array[i][0];
+                int note_time = track_part_array[i][1];
+                int note_height = track_part_array[i][2];
+                switch (lay) {
+                    case 1: {
+
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                //Start your animation here
+                                addElements(first_layout, note_height);
+
+                            }
+                        }, note_time);
+                        break;
+                    }
 
 
+                    case 2: {
 
-        int progress=0;
-        for(int i=0; i<track_part_array.length;i++){
-            int lay=track_part_array[i][0];
-            int note_time=track_part_array[i][1];
-            int note_height=track_part_array[i][2];
-            switch (lay){
-                case 1: {
-                    //progress += 1000;
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            //Start your animation here
-                            addElements(first_layout, note_height);
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                //Start your animation here
+                                addElements(second_layout, note_height);
+                            }
+                        }, note_time);
+                        break;
+                    }
 
-                        }
-                    }, note_time);break;
+
+                    case 3: {
+
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                //Start your animation here
+                                addElements(third_layout, note_height);
+                            }
+                        }, note_time);
+                        break;
+
+                    }
+
                 }
 
-
-                case 2: {
-                    //progress += 1000;
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            //Start your animation here
-                            addElements(second_layout, note_height);
-                        }
-                    }, note_time);break;
-                }
-
-
-                case 3: {
-                    progress += 1000;
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            //Start your animation here
-                            addElements(third_layout, note_height);
-                        }
-                    }, note_time);break;
-
-                }
-
+                i++;
             }
-
         }
 
-
     }
+
 
 
     @Override
@@ -272,41 +272,84 @@ public class MediumModeActivity extends Activity {
 
     public void addElements(ConstraintLayout layout, int heigh){
 
-            Button test=new Button(this);
-            test.setBackgroundResource(R.drawable.note);
-            test.setText("hey");
-            test.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, heigh));
-            layout.addView(test);
-            startAnimation(test, layout);
+        Button test=new Button(this);
+        test.setBackgroundResource(R.drawable.note);
+        test.setText("hey");
+        test.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, heigh));
+        layout.addView(test);
+        startAnimation(test, layout);
 
     }
 
 
 
     public void startAnimation(TextView rectangle, ConstraintLayout layout ){
-            // parameter + condition ternaire => clicked disappear, not clicked whole lyout
-
 
         ObjectAnimator translationY = ObjectAnimator.ofFloat(rectangle, "translationY", layout.getHeight());
         translationY.setInterpolator(new AccelerateInterpolator());
         translationY.setDuration(2000);
         translationY.start();
-
+        animator_set.add(translationY);
+        if(paused) translationY.pause();
         rectangle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int present_score = Integer.parseInt(score_field.getText().toString());
-                present_score--;
+                present_score++;
                 score_field.setText(String.valueOf(present_score));
                 rectangle.setVisibility(View.INVISIBLE);
-                Toast.makeText(getApplicationContext(), "Clicked: " ,Toast.LENGTH_SHORT).show();
             }
         });
 
+    }
 
+    private void startTimer(long timerStartFrom) {
+        progress_bar_timer =new CountDownTimer(track_duration, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                prog++;
+                int level=prog*1000*100/track_duration;
+                progressbar.setProgress(level);
+                timer_pg_bar.setText(String.valueOf(prog));
+
+            }
+
+            public void onFinish() {
+                progressbar.setProgress(100);
+                mp.stop();
+                first_layout.removeViews(1, first_layout.getChildCount() - 1);
+                second_layout.removeViews(1, second_layout.getChildCount() - 1);
+                third_layout.removeViews(1, third_layout.getChildCount() - 1);
+            }
+        }.start();
+    }
+
+    public  void pauseGame(){
+        //countdown
+        progress_bar_timer.cancel();
+        //mdiaplayer
+        //get current position
+        current_ps=mp.getCurrentPosition();
+        mp.pause();
+        //animation
+        System.out.println(animator_set.size());
+        for(int i=0; i<animator_set.size();i++){
+            animator_set.get(i).pause();
+        }
 
     }
 
+    public void resumeGame(){
+        // countdown
+        startTimer(prog);
+        //mediaplayer
+        mp.seekTo(mp.getCurrentPosition());
+        mp.start();
+        //animation
+        for(int i=0; i<animator_set.size();i++){
+            animator_set.get(i).resume();
+        }
+    }
 
 
 }
