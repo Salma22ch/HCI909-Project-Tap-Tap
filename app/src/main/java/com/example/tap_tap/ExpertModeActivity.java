@@ -423,10 +423,13 @@ public class ExpertModeActivity extends Activity {
                 third_layout.removeViews(1, third_layout.getChildCount() - 1);
                 Drawable d_restart=getDrawable(R.drawable.ic_replay);
                 pause_btn.setBackground(d_restart);
+                startCountDown.setText("Game \nOver");
+                startCountDown.setVisibility(View.VISIBLE);
                 if(Integer.parseInt(score_field.getText().toString()) >Integer.parseInt(highscore)) {
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString("expertMode", score_field.getText().toString());
                     editor.apply();
+                    startCountDown.setText("New High \n Score");
 
                 }
 
