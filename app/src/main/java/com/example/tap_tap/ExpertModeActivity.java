@@ -354,7 +354,7 @@ public class ExpertModeActivity extends Activity {
 
         ObjectAnimator translationY = ObjectAnimator.ofFloat(rectangle, "translationY", layout.getHeight());
         translationY.setInterpolator(new AccelerateInterpolator());
-        translationY.setDuration(2000);
+        translationY.setDuration(1000);
         translationY.start();
         animator_set.add(translationY);
 
