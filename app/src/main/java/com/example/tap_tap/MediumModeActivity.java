@@ -1,10 +1,14 @@
 package com.example.tap_tap;
 
 
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,21 +19,31 @@ import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
 
-import static android.media.MediaPlayer.SEEK_NEXT_SYNC;
-
 
 public class MediumModeActivity extends Activity {
+
+
+    // model
+    GameModel model_medium_game;
+
+    // media player
+    MediaPlayer mp;
+
+    // Widget and components declaration
     Button pause_btn;
 
     TextView score_field;
+    TextView best_score;
+    TextView startCountDown;
+    TextView game_over;
     AnimationDrawable animation_one;
 
     ConstraintLayout first_layout;
@@ -37,52 +51,25 @@ public class MediumModeActivity extends Activity {
     ConstraintLayout third_layout;
 
     // track details
-    MediaPlayer mp;
-    MediaPlayer vibrate_mp;
+
     int track_duration;
     int[][] track_part_array;
-
-
-
-
     int track_part_number;
 
     // progress bar + timer to update the prgress bar
-
-    //progress bar
     ProgressBar progressbar;
     TextView timer_pg_bar;
     int prog=1;
     private CountDownTimer timer = null;
-    private boolean paused=false;
+    private boolean paused;
+    private  boolean finished;
     private  CountDownTimer progress_bar_timer;
-    private int current_ps=0;
     private ArrayList<ObjectAnimator> animator_set=new ArrayList<>();
+    private  SharedPreferences sharedPref ;
+    private String highscore="";
 
-    // song-array
 
-    int[][] a = {{1, 1000, 300}, {2, 1400, 200},{1,2000, 300}, {2, 2400, 200},{1, 3000, 300}, {3, 3400, 200},{2, 3800, 200},{1, 4200, 400},{3, 4800, 600}};
 
-    String[] ab={"e","d","e","d","e","b","d","c","a","a","c","e","a","b","e","e","d","b","c","a",
-            "e","e","d","e","d","e","b","d","c","a","a","c","e","a","b","e","e","e","b","a","a",
-            "e","d","e","d","e","b","d","c","a","a","c","e","a","b","e","e","e","d","b","c","a",
-            "e","e","d","e","d","e","b","d","c","a","a","c","e","a","b","e","e","b","a","a",
-            "c","e","a","b","e","e","c","b","a","a","b","c","d","e","c","g","f","e","d","g",
-            "f","e","d","c","a","e","d","c","b","e","e","f","f","e","e","d","e","d","e",
-            "d","e","d","e","d","e","b","d","c","a","a","c","e","a","b","e","a","b","e",
-            "e","g","b","c","a","e","e","d","e","d","e","b","d","c","a","a","c","e","a","b",
-            "e","e","c","b","a","a","b","c","d","e","c","g","f","e","d","g","f"};
-    int[] rythm= {1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 2, 3, 2, 2,
-            1, 1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 1, 3, 2, 2,
-            1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 1, 2, 3, 2, 2,
-            1, 1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 3, 2, 2,
-            2, 1, 2, 3, 1, 1, 2, 3, 2, 2, 3, 2, 2};
-    int [] intensite={ 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 200 , 300 , 400 , 500 ,
-            300 , 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 500 , 300 , 300 , 300 , 300 , 400 , 500 ,
-            300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 ,  300 , 200 , 300 , 400 , 500 ,
-            300 , 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 400 , 400 ,
-            300 , 300 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 200
-    };
 
 
 
@@ -90,32 +77,24 @@ public class MediumModeActivity extends Activity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_expert);
+        setContentView(R.layout.game_activity);
+
+        // media player
+        mp=MediaPlayer.create(MediumModeActivity.this, R.raw.furshort);
+
+
+        //game model
+        model_medium_game=new GameModel("mediumMode",false,false,mp.getDuration());
+        model_medium_game.setTrack_part_array();
 
         // buttons
         pause_btn=(Button)findViewById(R.id.btn_pause);
 
-        // score field
+        // score + best score field
         score_field=(TextView)findViewById(R.id.score_field_game);
-
-        // media player
-        mp=MediaPlayer.create(MediumModeActivity.this, R.raw.furshort);
-        //mp.setPlaybackParams(mp.getPlaybackParams().setSpeed((float) 0.95));
-        track_duration=mp.getDuration();
-        track_part_number=(int)(track_duration/1000);
-        track_part_array=new int[rythm.length][3];
-
-        int p=100;
-        for(int i=0;i<rythm.length;i++)
-        {
-            track_part_array[i][0] = rythm[i];
-            track_part_array[i][1] = p;
-            track_part_array[i][2] = intensite[i];
-            if(i!=0 && rythm[i]==rythm[i-1])
-                p+=1000;
-            else p+=500;
-        }
-
+        best_score=(TextView)findViewById(R.id.highest_score);
+        startCountDown=(TextView)findViewById(R.id.startcountdown);
+        game_over=(TextView)findViewById(R.id.game_over);
 
         // layout
         first_layout=(ConstraintLayout) findViewById(R.id.first_layout);
@@ -123,12 +102,18 @@ public class MediumModeActivity extends Activity {
         third_layout=(ConstraintLayout) findViewById(R.id.third_layout);
 
 
-        //progress bar
-        mp.start();
+
+        // progress bar timer parameters
         timer_pg_bar=findViewById(R.id.timer);
         progressbar=findViewById(R.id.music_progress_bar);
 
-        startTimer(0);
+
+        // get height score
+        sharedPref = getSharedPreferences("HIGH_SCORE",Context.MODE_PRIVATE);
+        highscore= sharedPref.getString("mediumMode", "defaultvalu");
+        best_score.setText(highscore);
+
+
 
 
         first_layout.setOnClickListener(new View.OnClickListener() {
@@ -196,12 +181,29 @@ public class MediumModeActivity extends Activity {
         pause_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("paused");
-                paused=!paused;
-                if(paused) pauseGame();
-                else resumeGame();
+                model_medium_game.setState_paused(!model_medium_game.getState_paused());
+                if(model_medium_game.getState_paused()) {
+                    pauseGame();
+                    Drawable resume_d=getDrawable(R.drawable.ic_resume);
+                    pause_btn.setBackground(resume_d);
+                } else {
+                    resumeGame();
+                    Drawable pause_d=getDrawable(R.drawable.ic_pause_circle);
+                    pause_btn.setBackground(pause_d);
+                }
+
+                if(model_medium_game.getState_finished()){
+                    startActivity(new Intent(MediumModeActivity.this, MediumModeActivity.class));
+                    model_medium_game.setState_paused(false);
+                }
+
             }
         });
+
+        // double tap
+
+
+
     }
 
     @Override
@@ -209,12 +211,35 @@ public class MediumModeActivity extends Activity {
         super.onStart();
         Handler handler = new Handler();
 
+
+
+        new CountDownTimer(4000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                model_medium_game.setState_paused(true);
+                startCountDown.setVisibility(View.VISIBLE);
+                int countdown = 4;
+                countdown--;
+                startCountDown.setText(String.valueOf(countdown));
+
+            }
+            public void onFinish() {
+                model_medium_game.setState_paused(false);
+                startCountDown.setVisibility(View.INVISIBLE);
+                mp.start();
+                startTimer (0);
+
+            }
+        }.start();
+
+
+
+
         int i=0;
-        while(i<track_part_array.length) {
-            if(!paused){
-                int lay = track_part_array[i][0];
-                int note_time = track_part_array[i][1];
-                int note_height = track_part_array[i][2];
+        while(i<model_medium_game.getTrack_part_array().length) {
+            if(!model_medium_game.getState_paused()){
+                int lay = model_medium_game.getTrack_part_array()[i][0];
+                int note_time = model_medium_game.getTrack_part_array()[i][1];
+                int note_height = model_medium_game.getTrack_part_array()[i][2];
                 switch (lay) {
                     case 1: {
 
@@ -261,6 +286,43 @@ public class MediumModeActivity extends Activity {
 
     }
 
+    @Override
+    public void onBackPressed(){
+        //super.onBackPressed();
+        if(!model_medium_game.getState_paused()) {
+            model_medium_game.setState_paused(true);
+            pauseGame();
+            // dialog
+            new AlertDialog.Builder(this)
+                    .setTitle("Exit the game")
+                    .setMessage("Are you sure you want to exit the game?")
+
+                    // Specifying a listener allows you to take an action before dismissing the dialog.
+                    // The dialog is automatically dismissed when a dialog button is clicked.
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(MediumModeActivity.this, PickActivity.class));
+
+                        }
+                    })
+
+                    // A null listener allows the button to dismiss the dialog and take no further action.
+
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            model_medium_game.setState_paused(false);
+                            resumeGame();
+
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
+        }else{
+            super.onBackPressed();
+        }
+    }
+
 
 
     @Override
@@ -270,11 +332,14 @@ public class MediumModeActivity extends Activity {
         }
     }
 
+
+
+
+
     public void addElements(ConstraintLayout layout, int heigh){
 
         Button test=new Button(this);
         test.setBackgroundResource(R.drawable.note);
-        test.setText("hey");
         test.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, heigh));
         layout.addView(test);
         startAnimation(test, layout);
@@ -290,8 +355,8 @@ public class MediumModeActivity extends Activity {
         translationY.setDuration(2000);
         translationY.start();
         animator_set.add(translationY);
-        if(paused) translationY.pause();
-        rectangle.setOnClickListener(new View.OnClickListener() {
+
+        if(!model_medium_game.getState_paused())rectangle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int present_score = Integer.parseInt(score_field.getText().toString());
@@ -301,25 +366,39 @@ public class MediumModeActivity extends Activity {
             }
         });
 
+        if(model_medium_game.getState_paused()) translationY.pause();
+
     }
 
     private void startTimer(long timerStartFrom) {
-        progress_bar_timer =new CountDownTimer(track_duration, 1000) {
+        progress_bar_timer =new CountDownTimer(63*1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 prog++;
-                int level=prog*1000*100/track_duration;
+                int level=prog*1000*100/model_medium_game.getTrack_duration();
                 progressbar.setProgress(level);
                 timer_pg_bar.setText(String.valueOf(prog));
 
             }
 
             public void onFinish() {
+                model_medium_game.setState_finished(true);
                 progressbar.setProgress(100);
                 mp.stop();
                 first_layout.removeViews(1, first_layout.getChildCount() - 1);
                 second_layout.removeViews(1, second_layout.getChildCount() - 1);
                 third_layout.removeViews(1, third_layout.getChildCount() - 1);
+                Drawable d_restart=getDrawable(R.drawable.ic_replay);
+                pause_btn.setBackground(d_restart);
+                game_over.setVisibility(View.VISIBLE);
+                if(Integer.parseInt(score_field.getText().toString()) >Integer.parseInt(highscore)) {
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("mediumMode", score_field.getText().toString());
+                    editor.apply();
+                    game_over.setText("New High \n Score");
+
+                }
+
             }
         }.start();
     }
@@ -328,8 +407,6 @@ public class MediumModeActivity extends Activity {
         //countdown
         progress_bar_timer.cancel();
         //mdiaplayer
-        //get current position
-        current_ps=mp.getCurrentPosition();
         mp.pause();
         //animation
         System.out.println(animator_set.size());
