@@ -19,11 +19,10 @@
             android:id="@+id/first_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/border"
             android:layout_weight="1"
+            android:background="@drawable/border"
             android:orientation="vertical"
-            android:weightSum="3"/>
-
+            android:weightSum="3" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,16 +32,18 @@
             android:layout_weight="1"
             android:background="@drawable/border"
             android:orientation="vertical"
-            android:weightSum="3"/>
+            android:weightSum="3">
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/third_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/border"
             android:layout_weight="1"
+            android:background="@drawable/border"
             android:orientation="vertical"
-            android:weightSum="3"/>
+            android:weightSum="3" />
 
 
     </LinearLayout>
@@ -51,12 +52,14 @@
         android:id="@+id/top_bar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="200dp"
         android:background="#FFFFFF"
         android:backgroundTint="@null"
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
         android:weightSum="2"
+        app:layout_constraintBottom_toTopOf="@+id/startcountdown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -64,18 +67,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:orientation="horizontal"
+            android:padding="10dp"
             android:weightSum="4">
 
             <TextView
                 android:id="@+id/score_field_game"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="250dp"
+                android:layout_marginEnd="100dp"
                 android:layout_weight="1"
-                android:background="@color/white"
+                android:background="@drawable/blueborder"
                 android:paddingLeft="20dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
@@ -84,11 +87,14 @@
 
             <TextView
                 android:id="@+id/highest_score"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="80dp"
                 android:layout_weight="1"
-                android:padding="5dp"
+                android:background="@drawable/blueborder"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="0"
                 android:textSize="24sp" />
 
@@ -99,6 +105,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal"
+            android:padding="10dp"
             android:weightSum="7">
 
             <ProgressBar
@@ -134,5 +141,19 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/startcountdown"
+        android:layout_width="140dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="124dp"
+        android:layout_marginBottom="360dp"
+        android:paddingLeft="50dp"
+        android:text="4"
+        android:textSize="50sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_bar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

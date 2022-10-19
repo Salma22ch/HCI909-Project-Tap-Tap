@@ -4,8 +4,10 @@ package com.example.tap_tap;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -29,9 +31,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Writer;
 import java.util.ArrayList;
 
 import static android.media.MediaPlayer.SEEK_NEXT_SYNC;
@@ -42,6 +48,7 @@ public class ExpertModeActivity extends Activity {
 
     TextView score_field;
     TextView best_score;
+    TextView startCountDown;
     AnimationDrawable animation_one;
 
     ConstraintLayout first_layout;
@@ -70,8 +77,9 @@ public class ExpertModeActivity extends Activity {
     private  CountDownTimer progress_bar_timer;
     private int current_ps=0;
     private ArrayList<ObjectAnimator> animator_set=new ArrayList<>();
-    private String strjsonfile=null;
+    private  SharedPreferences sharedPref ;
     private String highscore="";
+
 
     // song-array
 
@@ -112,6 +120,7 @@ public class ExpertModeActivity extends Activity {
         // score + best score field
         score_field=(TextView)findViewById(R.id.score_field_game);
         best_score=(TextView)findViewById(R.id.highest_score);
+        startCountDown=(TextView)findViewById(R.id.startcountdown);
 
         // media player
         mp=MediaPlayer.create(ExpertModeActivity.this, R.raw.furshort);
@@ -138,16 +147,18 @@ public class ExpertModeActivity extends Activity {
         third_layout=(ConstraintLayout) findViewById(R.id.third_layout);
 
 
-        //progress bar
-        mp.start();
+        // progress bar timer parameters
         timer_pg_bar=findViewById(R.id.timer);
         progressbar=findViewById(R.id.music_progress_bar);
-        // timer for the progress bar
-        startTimer(0);
 
-        // high score
-        highscore=loadHighScore();
+
+        // get height score
+        sharedPref = getSharedPreferences("HIGH_SCORE",Context.MODE_PRIVATE);
+        highscore= sharedPref.getString("expertMode", "defaultvalu");
         best_score.setText(highscore);
+
+
+
 
         first_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,6 +244,26 @@ public class ExpertModeActivity extends Activity {
     protected void onStart() {
         super.onStart();
         Handler handler = new Handler();
+
+
+
+        new CountDownTimer(4000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                paused=true;
+                startCountDown.setVisibility(View.VISIBLE);
+                int countdown = Integer.parseInt(startCountDown.getText().toString());
+                countdown--;
+                startCountDown.setText(String.valueOf(countdown));
+
+            }
+            public void onFinish() {
+                paused=false;
+                startCountDown.setVisibility(View.INVISIBLE);
+                mp.start();
+                startTimer(0);
+            }
+        }.start();
+
 
         int i=0;
         while(i<track_part_array.length) {
@@ -328,29 +359,14 @@ public class ExpertModeActivity extends Activity {
         }
     }
 
-    public String loadHighScore() {
-        String json = null;
-        try {
-            InputStream is = this.getAssets().open("hscore.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-            JSONObject jsonobj=new JSONObject(json);
-            return jsonobj.get("expertMode").toString();
-        } catch (IOException | JSONException ex) {
-            ex.printStackTrace();
-            return null;
-        }
 
-    }
+
+
 
     public void addElements(ConstraintLayout layout, int heigh){
 
         Button test=new Button(this);
         test.setBackgroundResource(R.drawable.note);
-        test.setText("hey");
         test.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, heigh));
         layout.addView(test);
         startAnimation(test, layout);
@@ -398,6 +414,13 @@ public class ExpertModeActivity extends Activity {
                 first_layout.removeViews(1, first_layout.getChildCount() - 1);
                 second_layout.removeViews(1, second_layout.getChildCount() - 1);
                 third_layout.removeViews(1, third_layout.getChildCount() - 1);
+                if(Integer.parseInt(score_field.getText().toString()) >Integer.parseInt(highscore)) {
+                    System.out.println("new high score");
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("expertMode", score_field.getText().toString());
+                    editor.apply();
+
+                }
 
             }
         }.start();
