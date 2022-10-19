@@ -87,7 +87,7 @@ public class ExpertModeActivity extends Activity {
 
         //game model
         model_expert_game=new GameModel("expertMode",false,false,mp.getDuration());
-        model_expert_game.setTrack_part_array();
+
 
         // buttons
         pause_btn=(Button)findViewById(R.id.btn_pause);
@@ -219,12 +219,13 @@ public class ExpertModeActivity extends Activity {
             public void onTick(long millisUntilFinished) {
                 model_expert_game.setState_paused(true);
                 startCountDown.setVisibility(View.VISIBLE);
-                int countdown = 4;
+                int countdown = Integer.parseInt(startCountDown.getText().toString());
                 countdown--;
                 startCountDown.setText(String.valueOf(countdown));
 
             }
             public void onFinish() {
+                startCountDown.setText("Start !");
                 model_expert_game.setState_paused(false);
                 startCountDown.setVisibility(View.INVISIBLE);
                 mp.start();

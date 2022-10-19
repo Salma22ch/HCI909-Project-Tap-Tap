@@ -25,19 +25,47 @@ public class GameModel {
             "e","g","b","c","a","e","e","d","e","d","e","b","d","c","a","a","c","e","a","b",
             "e","e","c","b","a","a","b","c","d","e","c","g","f","e","d","g","f"};
 
-    int[] rythm= {1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 2, 3, 2, 2,
+    // easy mode
+    int[] rythm_easy= {1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 2, 3, 2, 2,
             1, 1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 1, 3, 2, 2,
             1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 1, 2, 3, 2, 2,
             1, 1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 3, 2, 2,
             2, 1, 2, 3, 1, 1, 2, 3, 2, 2, 3, 2, 2};
-    int [] intensite={ 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 200 , 300 , 400 , 500 ,
+    int [] intensite_easy={ 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 200 , 300 , 400 , 500 ,
             300 , 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 500 , 300 , 300 , 300 , 300 , 400 , 500 ,
             300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 ,  300 , 200 , 300 , 400 , 500 ,
             300 , 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 400 , 400 ,
             300 , 300 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 200
     };
 
-    int[][] track_part_array=new int[rythm.length][3];;
+    // medium mode
+    int[] rythm_medium= {1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 2, 3, 2, 2,
+            1, 1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 1, 3, 2, 2,
+            1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 1, 2, 3, 2, 2,
+            1, 1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 3, 2, 2,
+            2, 1, 2, 3, 1, 1, 2, 3, 2, 2, 3, 2, 2};
+    int [] intensite_medium={ 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 200 , 300 , 400 , 500 ,
+            300 , 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 500 , 300 , 300 , 300 , 300 , 400 , 500 ,
+            300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 ,  300 , 200 , 300 , 400 , 500 ,
+            300 , 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 400 , 400 ,
+            300 , 300 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 200
+    };
+
+    // expert mode
+    int[] rythm_expert= {1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 2, 3, 2, 2,
+            1, 1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 1, 3, 2, 2,
+            1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 1, 2, 3, 2, 2,
+            1, 1, 2, 1, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 3, 1, 1, 3, 2, 2,
+            2, 1, 2, 3, 1, 1, 2, 3, 2, 2, 3, 2, 2};
+    int [] intensite_expert={ 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 200 , 300 , 400 , 500 ,
+            300 , 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 500 , 300 , 300 , 300 , 300 , 400 , 500 ,
+            300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 ,  300 , 200 , 300 , 400 , 500 ,
+            300 , 300 , 200 , 300 , 200 , 300 , 300 , 200 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 400 , 400 ,
+            300 , 300 , 300 , 400 , 500 , 300 , 300 , 300 , 400 , 500 , 300 , 300 , 200
+    };
+
+
+    int[][] track_part_array;
 
 
     // constructor
@@ -96,32 +124,56 @@ public class GameModel {
 
     public int[][] getTrack_part_array() {
         int p=100;
-        for(int i=0;i<rythm.length;i++)
-        {
-            track_part_array[i][0] = rythm[i];
-            track_part_array[i][1] = p;
-            track_part_array[i][2] = intensite[i];
-            if(i!=0 && rythm[i]==rythm[i-1])
-                p+=1000;
-            else p+=500;
+
+        if(game_mode == "easyMode"){
+            track_part_array=new int[rythm_easy.length][3];
+            for(int i=0;i<rythm_easy.length;i++)
+            {
+                track_part_array[i][0] = rythm_easy[i];
+                track_part_array[i][1] = p;
+                track_part_array[i][2] = intensite_easy[i];
+                if(i!=0 && rythm_easy[i]==rythm_easy[i-1])
+                    p+=1000;
+                else p+=500;
+            }
+
         }
+
+        if(game_mode == "mediumMode"){
+            track_part_array=new int[rythm_medium.length][3];
+            for(int i=0;i<rythm_easy.length;i++)
+            {
+                track_part_array[i][0] = rythm_medium[i];
+                track_part_array[i][1] = p;
+                track_part_array[i][2] = intensite_medium[i];
+                if(i!=0 && rythm_medium[i]==rythm_medium[i-1])
+                    p+=1000;
+                else p+=500;
+            }
+
+        }
+
+        if(game_mode == "expertMode"){
+            track_part_array=new int[rythm_expert.length][3];
+            for(int i=0;i<rythm_expert.length;i++)
+            {
+                track_part_array[i][0] = rythm_expert[i];
+                track_part_array[i][1] = p;
+                track_part_array[i][2] = intensite_expert[i];
+                if(i!=0 && rythm_expert[i]==rythm_expert[i-1])
+                    p+=1000;
+                else p+=500;
+            }
+
+        }
+
         return track_part_array;
+
     }
 
 
 
-    public void setTrack_part_array() {
-        int p=100;
-        for(int i=0;i<rythm.length;i++)
-        {
-            track_part_array[i][0] = rythm[i];
-            track_part_array[i][1] = p;
-            track_part_array[i][2] = intensite[i];
-            if(i!=0 && rythm[i]==rythm[i-1])
-                p+=1000;
-            else p+=500;
-        }
-    }
+
 
 
 }

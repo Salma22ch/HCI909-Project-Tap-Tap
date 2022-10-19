@@ -85,7 +85,7 @@ public class EasyModeActivity extends Activity {
 
         //game model
         model_easy_game=new GameModel("easyMode",false,false,mp.getDuration());
-        model_easy_game.setTrack_part_array();
+
 
         // buttons
         pause_btn=(Button)findViewById(R.id.btn_pause);
@@ -216,12 +216,13 @@ public class EasyModeActivity extends Activity {
             public void onTick(long millisUntilFinished) {
                 model_easy_game.setState_paused(true);
                 startCountDown.setVisibility(View.VISIBLE);
-                int countdown = 4;
+                int countdown = Integer.parseInt(startCountDown.getText().toString());
                 countdown--;
                 startCountDown.setText(String.valueOf(countdown));
 
             }
             public void onFinish() {
+                startCountDown.setText("Start !");
                 model_easy_game.setState_paused(false);
                 startCountDown.setVisibility(View.INVISIBLE);
                 mp.start();

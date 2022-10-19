@@ -85,7 +85,7 @@ public class MediumModeActivity extends Activity {
 
         //game model
         model_medium_game=new GameModel("mediumMode",false,false,mp.getDuration());
-        model_medium_game.setTrack_part_array();
+
 
         // buttons
         pause_btn=(Button)findViewById(R.id.btn_pause);
@@ -217,12 +217,13 @@ public class MediumModeActivity extends Activity {
             public void onTick(long millisUntilFinished) {
                 model_medium_game.setState_paused(true);
                 startCountDown.setVisibility(View.VISIBLE);
-                int countdown = 4;
+                int countdown = Integer.parseInt(startCountDown.getText().toString());
                 countdown--;
                 startCountDown.setText(String.valueOf(countdown));
 
             }
             public void onFinish() {
+                startCountDown.setText("Start !");
                 model_medium_game.setState_paused(false);
                 startCountDown.setVisibility(View.INVISIBLE);
                 mp.start();
