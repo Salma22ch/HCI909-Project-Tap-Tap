@@ -74,6 +74,7 @@ public class ExpertModeActivity extends Activity {
     int prog=1;
     private CountDownTimer timer = null;
     private boolean paused=false;
+    private  boolean finished=false;
     private  CountDownTimer progress_bar_timer;
     private int current_ps=0;
     private ArrayList<ObjectAnimator> animator_set=new ArrayList<>();
@@ -234,6 +235,11 @@ public class ExpertModeActivity extends Activity {
                     resumeGame();
                     Drawable pause_d=getDrawable(R.drawable.ic_pause_circle);
                     pause_btn.setBackground(pause_d);
+                }
+
+                if(finished){
+                    startActivity(new Intent(ExpertModeActivity.this, ExpertModeActivity.class));
+                    finished=false;
                 }
 
             }
@@ -409,13 +415,15 @@ public class ExpertModeActivity extends Activity {
             }
 
             public void onFinish() {
+                finished=true;
                 progressbar.setProgress(100);
                 mp.stop();
                 first_layout.removeViews(1, first_layout.getChildCount() - 1);
                 second_layout.removeViews(1, second_layout.getChildCount() - 1);
                 third_layout.removeViews(1, third_layout.getChildCount() - 1);
+                Drawable d_restart=getDrawable(R.drawable.ic_replay);
+                pause_btn.setBackground(d_restart);
                 if(Integer.parseInt(score_field.getText().toString()) >Integer.parseInt(highscore)) {
-                    System.out.println("new high score");
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString("expertMode", score_field.getText().toString());
                     editor.apply();
