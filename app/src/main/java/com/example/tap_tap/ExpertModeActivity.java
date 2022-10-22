@@ -228,6 +228,7 @@ public class ExpertModeActivity extends Activity {
                 startCountDown.setText("Start !");
                 model_expert_game.setState_paused(false);
                 startCountDown.setVisibility(View.INVISIBLE);
+                startCountDown.setText("4");
                 mp.start();
                 startTimer (0);
 
@@ -283,7 +284,8 @@ public class ExpertModeActivity extends Activity {
 
                 }
 
-            i++;
+                 i++;
+                if(model_expert_game.getState_finished()) break;
         }
         }
 

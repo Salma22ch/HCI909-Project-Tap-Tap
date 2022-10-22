@@ -58,7 +58,8 @@
         android:background="#FFFFFF"
         android:backgroundTint="@null"
         android:orientation="vertical"
-        android:padding="30dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
         android:weightSum="2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,6 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal"
+            android:padding="10dp"
             android:weightSum="4">
 
             <TextView
@@ -88,7 +90,7 @@
                 android:id="@+id/highest_score"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="80dp"
                 android:layout_weight="1"
                 android:background="@drawable/blueborder"
                 android:paddingLeft="20dp"
@@ -119,19 +121,19 @@
 
             <TextView
                 android:id="@+id/timer"
-                android:layout_width="20dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:padding="10dp"
                 android:text="@string/timer_pg_bar"
-                android:textSize="16sp" />
+                android:textSize="20sp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_pause"
-                android:layout_width="4dp"
-                android:layout_height="wrap_content"
+                android:layout_width="1dp"
+                android:layout_height="50dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/ic_pause_circle"
@@ -145,8 +147,9 @@
         android:id="@+id/startcountdown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="180dp"
+        android:layout_marginStart="153dp"
         android:layout_marginBottom="390dp"
+        android:paddingLeft="50dp"
         android:text="4"
         android:textSize="50sp"
         android:visibility="visible"
@@ -158,7 +161,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="37dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginEnd="125dp"
         android:text="Game over"
         android:textSize="34sp"
         android:visibility="invisible"

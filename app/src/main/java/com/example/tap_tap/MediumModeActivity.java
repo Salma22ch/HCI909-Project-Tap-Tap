@@ -213,6 +213,7 @@ public class MediumModeActivity extends Activity {
 
 
 
+        // welcome Countdown before to start palying to prepare the activity
         new CountDownTimer(4000, 1000) {
             public void onTick(long millisUntilFinished) {
                 model_medium_game.setState_paused(true);
@@ -226,6 +227,7 @@ public class MediumModeActivity extends Activity {
                 startCountDown.setText("Start !");
                 model_medium_game.setState_paused(false);
                 startCountDown.setVisibility(View.INVISIBLE);
+                startCountDown.setText("4");
                 mp.start();
                 startTimer (0);
 
@@ -282,6 +284,7 @@ public class MediumModeActivity extends Activity {
                 }
 
                 i++;
+                if(model_medium_game.getState_finished()) break;
             }
         }
 
@@ -353,7 +356,7 @@ public class MediumModeActivity extends Activity {
 
         ObjectAnimator translationY = ObjectAnimator.ofFloat(rectangle, "translationY", layout.getHeight());
         translationY.setInterpolator(new AccelerateInterpolator());
-        translationY.setDuration(2000);
+        translationY.setDuration(1500);
         translationY.start();
         animator_set.add(translationY);
 
@@ -378,6 +381,7 @@ public class MediumModeActivity extends Activity {
                 prog++;
                 int level=prog*1000*100/model_medium_game.getTrack_duration();
                 progressbar.setProgress(level);
+
                 timer_pg_bar.setText(String.valueOf(prog));
 
             }
@@ -385,10 +389,11 @@ public class MediumModeActivity extends Activity {
             public void onFinish() {
                 model_medium_game.setState_finished(true);
                 progressbar.setProgress(100);
+                prog=0;
                 mp.stop();
-                first_layout.removeViews(1, first_layout.getChildCount() - 1);
-                second_layout.removeViews(1, second_layout.getChildCount() - 1);
-                third_layout.removeViews(1, third_layout.getChildCount() - 1);
+                first_layout.removeAllViews();
+                second_layout.removeAllViews();
+                third_layout.removeAllViews();
                 Drawable d_restart=getDrawable(R.drawable.ic_replay);
                 pause_btn.setBackground(d_restart);
                 game_over.setVisibility(View.VISIBLE);
@@ -396,7 +401,7 @@ public class MediumModeActivity extends Activity {
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString("mediumMode", score_field.getText().toString());
                     editor.apply();
-                    game_over.setText("New High \n Score");
+                    game_over.setText("New High  Score");
 
                 }
 

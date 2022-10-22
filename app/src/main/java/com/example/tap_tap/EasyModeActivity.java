@@ -2,6 +2,7 @@ package com.example.tap_tap;
 
 
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,9 +15,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -46,6 +49,7 @@ public class EasyModeActivity extends Activity {
     TextView game_over;
     AnimationDrawable animation_one;
 
+    LinearLayout background;
     ConstraintLayout first_layout;
     ConstraintLayout second_layout;
     ConstraintLayout third_layout;
@@ -69,10 +73,12 @@ public class EasyModeActivity extends Activity {
     private String highscore="";
 
 
+    int click_count=0;
 
 
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,7 +106,7 @@ public class EasyModeActivity extends Activity {
         first_layout=(ConstraintLayout) findViewById(R.id.first_layout);
         second_layout=(ConstraintLayout) findViewById(R.id.second_layout);
         third_layout=(ConstraintLayout) findViewById(R.id.third_layout);
-
+        background= (LinearLayout) findViewById(R.id.background);
 
         // progress bar timer parameters
         timer_pg_bar=findViewById(R.id.timer);
@@ -111,7 +117,6 @@ public class EasyModeActivity extends Activity {
         sharedPref = getSharedPreferences("HIGH_SCORE",Context.MODE_PRIVATE);
         highscore= sharedPref.getString("easyMode", "defaultvalu");
         best_score.setText(highscore);
-
 
 
 
@@ -177,20 +182,25 @@ public class EasyModeActivity extends Activity {
             }
         });
 
+
+
         pause_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 model_easy_game.setState_paused(!model_easy_game.getState_paused());
                 if(model_easy_game.getState_paused()) {
+                    // if the state started => paused
                     pauseGame();
                     Drawable resume_d=getDrawable(R.drawable.ic_resume);
                     pause_btn.setBackground(resume_d);
                 } else {
+                    // if the state paused => resumed
                     resumeGame();
                     Drawable pause_d=getDrawable(R.drawable.ic_pause_circle);
                     pause_btn.setBackground(pause_d);
                 }
 
+                // if the state finished => started
                 if(model_easy_game.getState_finished()){
                     startActivity(new Intent(EasyModeActivity.this, EasyModeActivity.class));
                     model_easy_game.setState_paused(false);
@@ -208,7 +218,8 @@ public class EasyModeActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        Handler handler = new Handler();
+
+        Handler handler=new Handler();
 
 
 
@@ -225,14 +236,12 @@ public class EasyModeActivity extends Activity {
                 startCountDown.setText("Start !");
                 model_easy_game.setState_paused(false);
                 startCountDown.setVisibility(View.INVISIBLE);
+                startCountDown.setText("4");
                 mp.start();
                 startTimer (0);
 
             }
         }.start();
-
-
-
 
         int i=0;
         while(i<model_easy_game.getTrack_part_array().length) {
@@ -281,8 +290,11 @@ public class EasyModeActivity extends Activity {
                 }
 
                 i++;
+                if(model_easy_game.getState_finished()) break;
             }
         }
+
+
 
     }
 
@@ -356,7 +368,7 @@ public class EasyModeActivity extends Activity {
         translationY.start();
         animator_set.add(translationY);
 
-        if(!model_easy_game.getState_paused())rectangle.setOnClickListener(new View.OnClickListener() {
+            rectangle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int present_score = Integer.parseInt(score_field.getText().toString());
@@ -371,6 +383,7 @@ public class EasyModeActivity extends Activity {
     }
 
     private void startTimer(long timerStartFrom) {
+
         progress_bar_timer =new CountDownTimer(63*1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -379,11 +392,15 @@ public class EasyModeActivity extends Activity {
                 progressbar.setProgress(level);
                 timer_pg_bar.setText(String.valueOf(prog));
 
-            }
+
+                }
+
+
 
             public void onFinish() {
                 model_easy_game.setState_finished(true);
                 progressbar.setProgress(100);
+                prog=0;
                 mp.stop();
                 first_layout.removeViews(1, first_layout.getChildCount() - 1);
                 second_layout.removeViews(1, second_layout.getChildCount() - 1);
@@ -395,7 +412,7 @@ public class EasyModeActivity extends Activity {
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString("easyMode", score_field.getText().toString());
                     editor.apply();
-                    game_over.setText("New High \n Score");
+                    game_over.setText("New High Score");
 
                 }
 
@@ -409,9 +426,9 @@ public class EasyModeActivity extends Activity {
         //mdiaplayer
         mp.pause();
         //animation
-        System.out.println(animator_set.size());
         for(int i=0; i<animator_set.size();i++){
             animator_set.get(i).pause();
+
         }
 
     }
