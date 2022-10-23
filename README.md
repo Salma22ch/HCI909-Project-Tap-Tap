@@ -1,5 +1,5 @@
-Tap-Tap
-Group 14: CHANA Salma, HARO Alegria
+#Tap-Tap
+#Group 14: CHANA Salma, HARO Alegria
 
 
 
@@ -14,8 +14,6 @@ Code:
 2. Main problems and challenges:
 Conclusion:
 
-
-################
 # General Info:
 
 ### Link to download the apk:
@@ -31,7 +29,6 @@ https://github.com/Salma22ch/HCI909-Project-Tap-Tap
 ### Supported Android Version:
 The game can only be run on an android phone: Android 6.0 (API level 23) and higher.
 
-####################
 
 ## Project description
 The main goal of this project was to develop an application that allows users to interact with music. Our initial idea was to make a game similar to GuitarHero, but as development progressed, we made it look like a PianoTiles game.
