@@ -1,5 +1,5 @@
-#Tap-Tap
-#Group 14: CHANA Salma, HARO Alegria
+# Tap-Tap
+# Group 14: CHANA Salma, HARO Alegria
 
 
 
@@ -76,9 +76,12 @@ Explanations:  (In the following, we will focus on the game activity architectur
 Our game will be running on mobile devices, so we need to make sure it will be responsive and adapt to all screens. To achieve this behavior, we used LinearLayout(Horizontal, Vertical) + LayoutWeight.
 As shown in the figure above, our application supports all screen sizes.
 ### Controller: Composed of three main parts:
-	OnCreate(): this method will be called once the activity is created, and it will hold the declaration of the views and add listeners to them.
-	OnStart(): as its name suggest it will be called once the activity is started  In this method, we will have a welcome countdown (3,2,1,0) before starting the game, once finished it will call the second countdown (synchronized with the music playing in the background + responsible for updating the progress bar). As well as adding the music notes progressively using a loop. The synchronization task is accomplished by calling a runnable inside the loop, this runnable will be executed with a delay corresponding to the time of appearance of each note of the music data structure given by the GameModel class.
-StateManagement:  we have four states:
+#### OnCreate():
+this method will be called once the activity is created, and it will hold the declaration of the views and add listeners to them.
+#### OnStart(): 
+as its name suggest it will be called once the activity is started  In this method, we will have a welcome countdown (3,2,1,0) before starting the game, once finished it will call the second countdown (synchronized with the music playing in the background + responsible for updating the progress bar). As well as adding the music notes progressively using a loop. The synchronization task is accomplished by calling a runnable inside the loop, this runnable will be executed with a delay corresponding to the time of appearance of each note of the music data structure given by the GameModel class.
+#### StateManagement: 
+we have four states:
 -StartedState : when the music is played and the animation of the musical notes is launched.
 - PausedState : when the user clicks on the pauseButton.
 - ResumeState : when the user resumes the game by clicking on the resumeButton.
